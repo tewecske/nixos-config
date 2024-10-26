@@ -27,6 +27,17 @@
   fileSystems."/mnt/externalwd" =
     { device = "/dev/disk/by-uuid/781C97A91C976144";
       fsType = "ntfs3";
+      options = [
+        "defaults"
+        "rw"
+	# "nodev"
+	# "nosuid"
+	"windows_names"
+	"nofail"
+	"user"
+	"uid=1000"
+	"gid=100"       
+      ];
     };
 
   swapDevices =

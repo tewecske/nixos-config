@@ -22,6 +22,15 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
+  systemd.services.plex = {
+    serviceConfig = {
+      SupplementaryGroups = [ "users" ];  # Add Plex to users group
+    };
+    after = [
+      "mnt-externalwd.mount"
+    ];
+  };
+
   networking.hostName = "tewenixsrv"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
