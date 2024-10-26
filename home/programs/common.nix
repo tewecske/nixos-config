@@ -93,7 +93,7 @@
       shellAliases = {
         vimdiff = "nvim -d";
       };
-      shellInit = ''
+      initExtra = ''
         bind '"\e[A":history-search-backward'
         bind '"\e[B":history-search-forward'
       '';
