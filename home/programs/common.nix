@@ -74,7 +74,7 @@
       enable = true;
       clock24 = true;
       keyMode = "vi";
-      extraConfig = "mouse on";
+      # extraConfig = "mouse on";
     };
 
     starship = {

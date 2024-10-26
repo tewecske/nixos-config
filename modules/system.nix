@@ -121,6 +121,10 @@
     vim
     wget
     curl
+
+    exfat
+    ntfs3g
+    fuse3
   ];
 
 }
