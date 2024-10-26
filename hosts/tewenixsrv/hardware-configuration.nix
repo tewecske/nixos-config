@@ -24,6 +24,11 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/externalwd" =
+    { device = "/dev/disk/by-uuid/781C97A91C976144";
+      fsType = "ntfs3";
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/af7c8b99-0e29-4ca7-9e05-041579bf6e17"; }
     ];
