@@ -10,6 +10,7 @@
       ../../modules/system.nix
       # ../../modules/i3.nix
       ../../modules/plex.nix
+      ../../modules/torrent.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
