@@ -27,25 +27,43 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+    let
+      commonModules = [
+        {
+          # config.nix.generateRegistryFromInputs = true;
+          config.home-manager.useGlobalPkgs = true;
+          config.home-manager.useUserPackages = true;
+          # Import custom home-manager modules (NixOS)
+          # config.home-manager.sharedModules = import ./users/modules/modules.nix;
+        }
+      ];
+    in
+    {
     nixosConfigurations = {
       tewenixsrv = let
         username = "tewe";
-        specialArgs = {inherit username;};
+        # specialArgs = {
+	  # inherit username;
+	# };
       in
-        nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
+        nixpkgs.lib.nixosSystem rec {
+          # inherit specialArgs;
           system = "x86_64-linux";
-          #specialArgs = { inherit inputs; };
-          modules = [
+          # specialArgs = { inherit inputs; };
+	  specialArgs = {
+	    inherit username;
+	    pkgs-unstable = import nixpkgs-unstable {
+	      inherit system;
+	    };
+	  };
+          modules = commonModules ++ [
             #./configuration.nix
             ./hosts/tewenixsrv
             ./users/${username}/nixos.nix
 
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
               home-manager.users.${username} = import ./users/${username}/home.nix;
               home-manager.extraSpecialArgs = inputs // specialArgs;
             }
