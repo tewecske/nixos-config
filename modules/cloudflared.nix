@@ -2,16 +2,23 @@
   lib,
   pkgs,
   pkgs-unstable,
+  inputs,
+  config,
   ...
 }: 
 let
   cloudflared = pkgs-unstable.cloudflared;
-  secrets = import ../secrets.nix;
+  common = {
+    mode = "444";
+    owner = "root";
+    group = "root";
+  };
 in
 {
-  # cloudflared.packages = with nixpkgs-unstable; [
-    # cloudflared
-  # ];
+
+  sops.secrets."cloudflared/weecaldemo/token" = {
+    inherit (common) mode owner group;
+  };
 
   users.users = {
     cloudflared = {
@@ -22,23 +29,17 @@ in
   users.groups.cloudflared = { };
 
   systemd.services.cloudflared = {
-       after = [ "network.target" "network-online.target" ];
+    after = [ "network.target" "network-online.target" ];
     wants = [ "network.target" "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      # ExecStart = "${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token=${secrets.cloudflared.nixpi4.token}";
-      ExecStart = "${cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token=${secrets.cloudflared.weecaldemo.token}";
+      ExecStart = "${cloudflared}/bin/cloudflared tunnel --no-autoupdate run";
+      EnvironmentFile = "${config.sops.secrets."cloudflared/weecaldemo/token".path}";
       Group = "cloudflared";
       User = "cloudflared";
       Restart = "on-failure";
     };
   };
-
-  # programs = {
-    # cloudflared = {
-      # enable = true;
-    # };
-  # };
 
 }
 

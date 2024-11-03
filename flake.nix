@@ -21,6 +21,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      type = "github";
+      owner = "Mic92";
+      repo = "sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     catppuccin-bat = {
       url = "github:catppuccin/bat";
       flake = false;
@@ -30,12 +37,19 @@
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
     let
       commonModules = [
+        # import sops everywhere
+        inputs.sops-nix.nixosModules.sops
         {
           # config.nix.generateRegistryFromInputs = true;
           config.home-manager.useGlobalPkgs = true;
           config.home-manager.useUserPackages = true;
           # Import custom home-manager modules (NixOS)
           # config.home-manager.sharedModules = import ./users/modules/modules.nix;
+
+          config.sops.defaultSopsFile = ./secrets.yaml;
+          config.sops.defaultSopsFormat = "yaml";
+	  # TODO: fix this
+	  config.sops.age.keyFile = "/home/tewe/.config/sops/age/keys.txt";
         }
       ];
     in
@@ -43,22 +57,17 @@
     nixosConfigurations = {
       tewenixsrv = let
         username = "tewe";
-        # specialArgs = {
-	  # inherit username;
-	# };
       in
         nixpkgs.lib.nixosSystem rec {
-          # inherit specialArgs;
           system = "x86_64-linux";
-          # specialArgs = { inherit inputs; };
 	  specialArgs = {
 	    inherit username;
 	    pkgs-unstable = import nixpkgs-unstable {
 	      inherit system;
 	    };
+	    inherit inputs;
 	  };
           modules = commonModules ++ [
-            #./configuration.nix
             ./hosts/tewenixsrv
             ./users/${username}/nixos.nix
 
