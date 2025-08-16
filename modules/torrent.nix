@@ -21,12 +21,12 @@ in
     # user = "tewe";
     # group = "users";
   # };
-  services.jackett = {
-    enable = true;
-    dataDir = "/home/tewe/.config/jackett";
-    user = "tewe";
-    group = "users";
-  };
+  # services.jackett = {
+    # enable = true;
+    # dataDir = "/home/tewe/.config/jackett";
+    # user = "tewe";
+    # group = "users";
+  # };
   services.radarr = {
     enable = true;
     dataDir = "/home/tewe/.config/Radarr";
