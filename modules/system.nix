@@ -121,6 +121,7 @@
     vim
     wget
     curl
+    inetutils
 
     exfat
     ntfs3g
