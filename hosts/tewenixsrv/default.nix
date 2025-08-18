@@ -10,6 +10,7 @@
       ../../modules/system.nix
       # ../../modules/i3.nix
       ../../modules/plex.nix
+      ../../modules/jellyfin.nix
       ../../modules/torrent.nix
       ../../modules/cloudflared.nix
 
