@@ -80,7 +80,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
             }
           ];
       };
@@ -103,7 +103,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
             }
           ];
       };
@@ -126,7 +126,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
             }
           ];
       };

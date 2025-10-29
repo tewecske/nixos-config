@@ -1,9 +1,5 @@
-{ config, pkgs, ... }:
+{ config, pkgs, profile, ... }: # Add 'profile' to the function arguments
 
-let
-  # Use the custom profile property instead of the hostname
-  profile = config.mySystem.profile;
-in
 {
   # First, import the common configuration that applies to all hosts.
   imports = [ ./common.nix ]
@@ -16,6 +12,6 @@ in
       # Import server-specific settings
       [ ./server.nix ]
     else
-      # Default to an empty list if the hostname doesn't match
+      # Default to an empty list if the profile doesn't match
       [ ]);
 }
