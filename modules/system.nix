@@ -71,6 +71,7 @@
       # nerdfonts
       nerd-fonts.fira-code
       nerd-fonts.jetbrains-mono
+      nerd-fonts.meslo-lg
     ];
 
     # use fonts specified by user rather than default ones
@@ -82,7 +83,7 @@
     fontconfig.defaultFonts = {
       serif = ["Noto Serif" "Noto Color Emoji"];
       sansSerif = ["Noto Sans" "Noto Color Emoji"];
-      monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+      monospace = ["MesloLGMDZ Nerd Font" "JetBrainsMono Nerd Font" "Noto Color Emoji"];
       emoji = ["Noto Color Emoji"];
     };
   };
