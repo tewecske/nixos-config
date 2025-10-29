@@ -15,16 +15,20 @@
     };
     # Place the reset config in the .config/tmux/ directory
     ".config/tmux/tmux.reset.conf" = {
-      source = inputs.tewenixhome + "/tmux/tmux.reset.conf";
+      source = inputs.tewenixhome + "/.config/tmux/tmux.reset.conf";
+    };
+    # Place the main tmux config in the correct directory
+    ".config/tmux/tmux.conf" = {
+      source = inputs.tewenixhome + "/.config/tmux/tmux.conf";
     };
   };
 
   # Enable and configure tmux.
   programs.tmux = {
     enable = true;
-    # Tell home-manager to use your tmux.conf from the repo.
-    # This will place it at ~/.config/tmux/tmux.conf by default.
-    configFile.source = inputs.tewenixhome + "/tmux/tmux.conf";
+
+    # The tmux module will automatically use the config file we placed
+    # with home.file at ~/.config/tmux/tmux.conf
 
     plugins = with pkgs.tmuxPlugins; [
       tmux-resurrect

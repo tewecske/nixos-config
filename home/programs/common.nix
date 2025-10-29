@@ -48,35 +48,9 @@
     pciutils #lspci
     usbutils #lsusb
 
-    # misc
-    # libnotify
-    # wineWowPackages.wayland
-    # xdg-utils
-    # graphviz
-
-    # cloud native
-    # docker-compose
-    # kubectl
-
-    # nodejs
-    # nodePackages.npm
-    # nodePackages.pnpm
-    # yarn
-
-    # db related
-    # dbeaver-bin
-    # mycli
-    # pgcli
   ];
 
   programs = {
-    tmux = {
-      enable = true;
-      clock24 = true;
-      keyMode = "vi";
-      # extraConfig = "mouse on";
-    };
-
     starship = {
       enable = true;
       settings = {
