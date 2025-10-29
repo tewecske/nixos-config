@@ -101,6 +101,29 @@
             }
           ];
       };
+      vmi3 = let
+        username = "tewe";
+      in
+        nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+	  specialArgs = {
+	    inherit username;
+	    pkgs-unstable = import nixpkgs-unstable {
+	      inherit system;
+	    };
+	    inherit inputs;
+	  };
+          modules = commonModules ++ [
+            ./hosts/vmi3
+            ./users/${username}/nixos.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.users.${username} = import ./users/${username}/home.nix;
+              home-manager.extraSpecialArgs = inputs // specialArgs;
+            }
+          ];
+      };
     };
   };
 }

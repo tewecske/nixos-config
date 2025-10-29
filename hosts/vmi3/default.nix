@@ -5,7 +5,7 @@
     [
       ../../modules/system.nix
       ../../modules/desktop.nix
-      ../../modules/gnome.nix
+      ../../modules/i3.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -18,7 +18,7 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "desktopgnome"; # Define your hostname.
+  networking.hostName = "vmi3"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
