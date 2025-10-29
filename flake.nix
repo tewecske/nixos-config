@@ -32,6 +32,11 @@
       url = "github:catppuccin/bat";
       flake = false;
     };
+
+    tewenixhome = {
+      url = "github:tewecske/tewenixhome";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
