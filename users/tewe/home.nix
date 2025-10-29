@@ -17,7 +17,7 @@
 
   programs.bash = {
     enable = true;
-    bashrcExtra = builtins.readFile inputs.tewenixhome + "/.bashrc";
+    bashrcExtra = builtins.readFile "${inputs.tewenixhome}/.bashrc";
   };
 
   # Enable and configure tmux.
