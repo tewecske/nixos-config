@@ -5,6 +5,8 @@
 { config, pkgs, pkgs-unstable, ... }:
 
 {
+  mySystem.profile = "server";
+
   imports =
     [
       ../../modules/system.nix

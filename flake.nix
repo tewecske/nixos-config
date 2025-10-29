@@ -41,7 +41,8 @@
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
     let
-      commonModules = [
+      commonModules = [ 
+        ./modules/custom-options.nix
         # import sops everywhere
         inputs.sops-nix.nixosModules.sops
         {

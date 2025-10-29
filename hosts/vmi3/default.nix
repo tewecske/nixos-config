@@ -1,6 +1,8 @@
 { config, pkgs, pkgs-unstable, ... }:
 
 {
+  mySystem.profile = "desktop";
+
   imports =
     [
       ../../modules/system.nix
