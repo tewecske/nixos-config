@@ -104,7 +104,8 @@
       noto-fonts-emoji
 
       # nerdfonts
-      (nerdfonts.override {fonts = ["FiraCode" "JetBrainsMono"];})
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
     ];
 
     # use fonts specified by user rather than default ones
