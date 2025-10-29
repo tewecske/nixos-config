@@ -14,10 +14,10 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -69,6 +69,29 @@
 	  };
           modules = commonModules ++ [
             ./hosts/tewenixsrv
+            ./users/${username}/nixos.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.users.${username} = import ./users/${username}/home.nix;
+              home-manager.extraSpecialArgs = inputs // specialArgs;
+            }
+          ];
+      };
+      desktopgnome = let
+        username = "tewe";
+      in
+        nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+	  specialArgs = {
+	    inherit username;
+	    pkgs-unstable = import nixpkgs-unstable {
+	      inherit system;
+	    };
+	    inherit inputs;
+	  };
+          modules = commonModules ++ [
+            ./hosts/desktopgnome
             ./users/${username}/nixos.nix
 
             home-manager.nixosModules.home-manager
