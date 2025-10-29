@@ -31,8 +31,8 @@
     # with home.file at ~/.config/tmux/tmux.conf
 
     plugins = with pkgs.tmuxPlugins; [
-      tmux-resurrect
-      tmux-continuum
+      resurrect
+      continuum
       tmux-thumbs
       tmux-fzf
       catppuccin
