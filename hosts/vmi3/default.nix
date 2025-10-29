@@ -5,8 +5,8 @@
     [
       ../../modules/system.nix
       ../../modules/desktop.nix
-      # ../../modules/i3.nix
-      ../../modules/hyprland.nix
+      ../../modules/i3.nix
+      # ../../modules/hyprland.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
