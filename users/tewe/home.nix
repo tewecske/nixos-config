@@ -7,15 +7,17 @@
   ];
 
   home.file = {
-    ".bashrc" = {
-      source = inputs.tewenixhome + "/.bashrc";
-    };
     ".gitconfig" = {
       source = inputs.tewenixhome + "/.gitconfig";
     };
     ".config/tmux/tmux.reset.conf" = {
       source = inputs.tewenixhome + "/.config/tmux/tmux.reset.conf";
     };
+  };
+
+  programs.bash = {
+    enable = true;
+    bashrcExtra = builtins.readFile inputs.tewenixhome + "/.bashrc";
   };
 
   # Enable and configure tmux.
