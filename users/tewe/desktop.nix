@@ -6,9 +6,10 @@
     viber
     vlc
     google-chrome
+    steam
   ];
 
-  programs.steam.enable = true;
+  # programs.steam.enable = true;
   # programs.gamemode.enable = true;
   programs.firefox.enable = true;
 
