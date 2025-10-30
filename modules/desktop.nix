@@ -26,8 +26,5 @@
     #media-session.enable = true;
   };
  
-  # Install firefox.
-  programs.firefox.enable = true;
-
 }
 

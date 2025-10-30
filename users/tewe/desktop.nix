@@ -3,5 +3,13 @@
 {
   home.packages = with pkgs; [
     discord
+    viber
+    vlc
+    google-chrome
   ];
+
+  programs.steam.enable = true;
+  programs.gamemode.enable = true;
+  programs.firefox.enable = true;
+
 }
