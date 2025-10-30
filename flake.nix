@@ -78,10 +78,10 @@
             ./users/${username}/nixos.nix
 
             home-manager.nixosModules.home-manager
-            {
+            ({ config, ... }: {
               home-manager.users.${username} = import ./users/${username}/home.nix;
               home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
-            }
+            })
           ];
       };
       desktopgnome = let
@@ -101,10 +101,10 @@
             ./users/${username}/nixos.nix
 
             home-manager.nixosModules.home-manager
-            {
+            ({ config, ... }: {
               home-manager.users.${username} = import ./users/${username}/home.nix;
               home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
-            }
+            })
           ];
       };
       vmi3 = let
@@ -124,10 +124,10 @@
             ./users/${username}/nixos.nix
 
             home-manager.nixosModules.home-manager
-            {
+            ({ config, ... }: {
               home-manager.users.${username} = import ./users/${username}/home.nix;
               home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
-            }
+            })
           ];
       };
     };
