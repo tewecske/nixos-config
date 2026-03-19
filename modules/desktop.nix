@@ -4,9 +4,6 @@
   ...
 }: {
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
