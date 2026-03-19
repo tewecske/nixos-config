@@ -43,8 +43,6 @@
     let
       commonModules = [ 
         ./modules/custom-options.nix
-        # Enable unfree packages globally
-        nixpkgs.config.allowUnfree = true;
         # import sops everywhere
         inputs.sops-nix.nixosModules.sops
         {
@@ -72,6 +70,7 @@
 	    inherit username;
 	    pkgs-unstable = import nixpkgs-unstable {
 	      inherit system;
+	      config.allowUnfree = true;
 	    };
 	    inherit inputs;
 	  };
@@ -95,6 +94,7 @@
 	    inherit username;
 	    pkgs-unstable = import nixpkgs-unstable {
 	      inherit system;
+	      config.allowUnfree = true;
 	    };
 	    inherit inputs;
 	  };
@@ -118,6 +118,7 @@
 	    inherit username;
 	    pkgs-unstable = import nixpkgs-unstable {
 	      inherit system;
+	      config.allowUnfree = true;
 	    };
 	    inherit inputs;
 	  };
