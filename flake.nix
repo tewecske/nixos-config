@@ -56,6 +56,9 @@
           config.sops.defaultSopsFormat = "yaml";
 	  # TODO: fix this
 	  config.sops.age.keyFile = "/home/tewe/.config/sops/age/keys.txt";
+          config.home-manager.sharedModules = [
+	    inputs.sops-nix.homeManagerModules.sops
+          ];
         }
       ];
     in

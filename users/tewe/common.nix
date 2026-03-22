@@ -15,8 +15,14 @@
     };
   };
 
-  sops.secrets.rclone_config = {
-    path = "/home/tewe/.config/rclone/rclone.conf";
+  sops = {
+    defaultSopsFile = ../../secrets.yaml;
+    defaultSopsFormat = "yaml";
+    # TODO: fix this
+    age.keyFile = "/home/tewe/.config/sops/age/keys.txt";
+    secrets.rclone_config = {
+      path = "/home/tewe/.config/rclone/rclone.conf";
+    };
   };
 
   programs.bash = {
