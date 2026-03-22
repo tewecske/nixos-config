@@ -16,6 +16,7 @@
     # utils
     ripgrep
     jq
+    rclone
     fzf
     #yq-go # https://github.com/mikefarah/yq
 

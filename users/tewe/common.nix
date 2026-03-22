@@ -15,6 +15,10 @@
     };
   };
 
+  sops.secrets.rclone_config = {
+    path = "/home/tewe/.config/rclone/rclone.conf";
+  };
+
   programs.bash = {
     enable = true;
     bashrcExtra = builtins.readFile "${inputs.tewenixhome}/.bashrc";
