@@ -4,6 +4,7 @@ let
   dataDir = "/var/lib/qbittorrent";
 in
 {
+
   services.sonarr = {
     enable = true;
     dataDir = "/home/tewe/.config/NzbDrone";
@@ -36,5 +37,13 @@ in
     '';
     serviceConfig.User = "tewe";
   };
+
+  networking.firewall.allowedTCPPorts = [
+    8080   # qBittorrent
+    8989   # Sonarr
+    7878   # Radarr
+    9696   # Prowlarr
+    5055   # Overseerr
+  ];
 }
 
