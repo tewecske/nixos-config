@@ -13,7 +13,7 @@
       # ../../modules/i3.nix
       ../../modules/plex.nix
       ../../modules/jellyfin.nix
-      # ../../modules/torrent.nix
+      ../../modules/torrent.nix
       ../../modules/cloudflared.nix
       ../../modules/photoprism.nix
 

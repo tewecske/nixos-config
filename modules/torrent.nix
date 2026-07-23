@@ -5,16 +5,26 @@ let
 in
 {
 
+  users.users.radarr = {
+    group = "users";
+    isNormalUser = true;
+    extraGroups = [ "media" ];
+  };
+
+  users.users.sonarr = {
+    group = "users";
+    isNormalUser = true;
+    extraGroups = [ "media" ];
+  };
+
   services.sonarr = {
     enable = true;
-    dataDir = "/home/tewe/.config/NzbDrone";
     user = "tewe";
     group = "users";
   };
 
   services.radarr = {
     enable = true;
-    dataDir = "/home/tewe/.config/Radarr";
     user = "tewe";
     group = "users";
   };
