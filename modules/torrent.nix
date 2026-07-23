@@ -19,13 +19,13 @@ in
     group = "users";
   };
 
-  # services.prowlarr = {
-  #   enable = true;
-  # };
+  services.prowlarr = {
+    enable = true;
+  };
 
-  # services.seer = {
-  #   enable = true;
-  # };
+  services.seer = {
+    enable = true;
+  };
 
   systemd.services.qbittorrent = {
     description = "qbittorrent";
