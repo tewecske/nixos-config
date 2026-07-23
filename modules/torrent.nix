@@ -20,9 +20,6 @@ in
 
   services.prowlarr = {
     enable = true;
-    dataDir = "/home/tewe/.config/Prowlarr";
-    user = "tewe";
-    group = "users";
   };
 
   services.overseerr = {
