@@ -22,8 +22,8 @@
     storagePath = "/var/lib/photoprism";
     settings = {
       PHOTOPRISM_ADMIN_PASSWORD = "password";
-      PHOTOPRISM_READONLY = false;
-      PHOTOPRISM_DISABLE_TLS = true;
+      PHOTOPRISM_READONLY = "false";
+      PHOTOPRISM_DISABLE_TLS = "true";
       PHOTOPRISM_DATABASE_DRIVER = "sqlite";
       PHOTOPRISM_AUTH_MODE = "public";
       PHOTOPRISM_SITE_URL = "http://192.168.50.5:2342/";
