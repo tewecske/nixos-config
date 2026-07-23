@@ -23,7 +23,7 @@ in
     enable = true;
   };
 
-  services.seer = {
+  services.seerr = {
     enable = true;
   };
 
