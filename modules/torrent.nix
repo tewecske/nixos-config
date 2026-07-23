@@ -23,7 +23,7 @@ in
     enable = true;
   };
 
-  services.overseerr = {
+  services.seer = {
     enable = true;
   };
 
@@ -43,7 +43,7 @@ in
     8989   # Sonarr
     7878   # Radarr
     9696   # Prowlarr
-    5055   # Overseerr
+    5055   # Seerr
   ];
 }
 
