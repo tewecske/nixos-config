@@ -23,9 +23,9 @@ in
     enable = true;
   };
 
-  services.seer = {
-    enable = true;
-  };
+  # services.seer = {
+  #   enable = true;
+  # };
 
   systemd.services.qbittorrent-sonarr = {
     description = "qbittorrent";
