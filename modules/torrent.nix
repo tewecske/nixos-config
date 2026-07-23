@@ -27,7 +27,7 @@ in
   #   enable = true;
   # };
 
-  systemd.services.qbittorrent-sonarr = {
+  systemd.services.qbittorrent = {
     description = "qbittorrent";
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
