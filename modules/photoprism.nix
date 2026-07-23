@@ -27,6 +27,8 @@
       PHOTOPRISM_DATABASE_DRIVER = "sqlite";
       PHOTOPRISM_AUTH_MODE = "public";
       PHOTOPRISM_SITE_URL = "http://192.168.50.5:2342/";
+      PHOTOPRISM_HTTP_HOST = "0.0.0.0";
+      PHOTOPRISM_HTTP_PORT = "2342";
     };
   };
 
