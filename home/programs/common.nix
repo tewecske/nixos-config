@@ -95,7 +95,7 @@
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks."*" = {
+      settings."*" = {
         identitiesOnly = true;
         identityFile = [
           "~/.ssh/id_rsa"

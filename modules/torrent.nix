@@ -19,9 +19,9 @@ in
     group = "users";
   };
 
-  services.prowlarr = {
-    enable = true;
-  };
+  # services.prowlarr = {
+  #   enable = true;
+  # };
 
   # services.seer = {
   #   enable = true;
