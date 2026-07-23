@@ -4,29 +4,13 @@ let
   dataDir = "/var/lib/qbittorrent";
 in
 {
-  # services.bazarr = {
-    # enable = true;
-    # user = "tewe";
-    # group = "users";
-  # };
   services.sonarr = {
     enable = true;
     dataDir = "/home/tewe/.config/NzbDrone";
     user = "tewe";
     group = "users";
   };
-  # services.prowlarr = {
-    # enable = true;
-    # dataDir = "/home/tewe/.config/Prowlerr";
-    # user = "tewe";
-    # group = "users";
-  # };
-  # services.jackett = {
-    # enable = true;
-    # dataDir = "/home/tewe/.config/jackett";
-    # user = "tewe";
-    # group = "users";
-  # };
+
   services.radarr = {
     enable = true;
     dataDir = "/home/tewe/.config/Radarr";
@@ -34,7 +18,20 @@ in
     group = "users";
   };
 
-  # Also run qbittorrent-nox as svein.
+  services.prowlarr = {
+    enable = true;
+    dataDir = "/home/tewe/.config/Prowlarr";
+    user = "tewe";
+    group = "users";
+  };
+
+  services.overseerr = {
+    enable = true;
+    dataDir = "/home/tewe/.config/Overseerr";
+    user = "tewe";
+    group = "users";
+  };
+
   systemd.services.qbittorrent-sonarr = {
     description = "qbittorrent";
     wantedBy = [ "multi-user.target" ];
