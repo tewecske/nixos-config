@@ -35,6 +35,7 @@
   systemd.services.photoprism = {
     serviceConfig = {
       SupplementaryGroups = [ "users" ];
+      CPUQuota = "50%";
     };
     after = [
       "mnt-externalwd.mount"
