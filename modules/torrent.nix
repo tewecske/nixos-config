@@ -27,9 +27,6 @@ in
 
   services.overseerr = {
     enable = true;
-    dataDir = "/home/tewe/.config/Overseerr";
-    user = "tewe";
-    group = "users";
   };
 
   systemd.services.qbittorrent-sonarr = {
