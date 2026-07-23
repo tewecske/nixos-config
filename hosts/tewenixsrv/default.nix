@@ -15,6 +15,7 @@
       ../../modules/jellyfin.nix
       ../../modules/torrent.nix
       ../../modules/cloudflared.nix
+      ../../modules/photoprism.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
