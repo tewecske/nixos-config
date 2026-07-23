@@ -1,11 +1,16 @@
 { config, pkgs, ... }:
 
 {
+  users.groups.photoprism = {};
   users.groups.media.members = [
     "photoprism"
   ];
 
-  users.users.photoprism.extraGroups = [ "media" ];
+  users.users.photoprism = {
+    isSystemUser = true;
+    group = "photoprism";
+    extraGroups = [ "media" ];
+  };
 
   # Photoprism - Photo management and viewing
   # https://www.photoprism.app/
