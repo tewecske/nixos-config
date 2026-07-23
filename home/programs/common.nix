@@ -92,7 +92,16 @@
     btop.enable = true; # replacement of htop/nmon
     # eza.enable = true; # A modern replacement for ‘ls’
     jq.enable = true; # A lightweight and flexible command-line JSON processor
-    ssh.enable = true;
+    ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      matchBlocks."*" = {
+        identitiesOnly = true;
+        identityFile = [
+          "~/.ssh/id_rsa"
+        ];
+      };
+    };
     # aria2.enable = true; # lightweight download utility
 
     # ? fuzzy finder ?
