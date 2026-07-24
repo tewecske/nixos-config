@@ -118,6 +118,8 @@
     exfat
     ntfs3g
     fuse3
+
+    rmlint
   ];
 
 }
