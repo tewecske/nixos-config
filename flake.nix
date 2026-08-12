@@ -37,6 +37,15 @@
       url = "github:tewecske/tewenixhome";
       flake = false;
     };
+
+    # Provides nixosModules.default (services.gathedge) plus the overlay supplying
+    # pkgs.gathedge-backend / pkgs.gathedge-web. Following nixpkgs matters: the module only
+    # contributes overlays, so the packages build against the pin here, and the fixed-output
+    # hashes in the app repo were computed against this same 26.05.
+    gathedge = {
+      url = "github:tewecske/gathedge";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:

@@ -16,6 +16,42 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "gathedge": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "sbt-derivation": "sbt-derivation"
+      },
+      "locked": {
+        "lastModified": 1786544710,
+        "narHash": "sha256-64UNHwaASJy/BGijNs76D/KIBy5SMbD+hiSpZGFZXY4=",
+        "owner": "tewecske",
+        "repo": "gathedge",
+        "rev": "8449c1ffcd2e096d078be5247800b2488d386876",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tewecske",
+        "repo": "gathedge",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -72,11 +108,34 @@
     "root": {
       "inputs": {
         "catppuccin-bat": "catppuccin-bat",
+        "gathedge": "gathedge",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix",
         "tewenixhome": "tewenixhome"
+      }
+    },
+    "sbt-derivation": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "gathedge",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1698464090,
+        "narHash": "sha256-Pnej7WZIPomYWg8f/CZ65sfW85IfIUjYhphMMg7/LT0=",
+        "owner": "zaninime",
+        "repo": "sbt-derivation",
+        "rev": "6762cf2c31de50efd9ff905cbcc87239995a4ef9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zaninime",
+        "repo": "sbt-derivation",
+        "type": "github"
       }
     },
     "sops-nix": {

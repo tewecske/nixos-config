@@ -17,6 +17,7 @@
       ../../modules/cloudflared.nix
       ../../modules/photoprism.nix
       ../../modules/samba.nix
+      ../../modules/gathedge.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
