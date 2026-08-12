@@ -41,6 +41,11 @@
     hostName = "gathedge.200iq.link";
     publicBaseUrl = "https://gathedge.200iq.link";
 
+    # Not the module's default of 8080: qbittorrent-nox's WebUI already has that
+    # (modules/torrent.nix), and the backend would fail to bind. Loopback only either way —
+    # nginx is the only thing that talks to it.
+    port = 8081;
+
     # cloudflared sets X-Forwarded-For to the real client, then nginx appends its own peer
     # (127.0.0.1), giving [client, 127.0.0.1] — so the client sits 2 in from the right. A
     # request that arrives directly on the LAN carries a 1-entry header instead, the lookup
