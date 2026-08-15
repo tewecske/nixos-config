@@ -63,6 +63,8 @@
     # which is exactly what the secret must not be. Equal to
     # config.sops.secrets."gathedge/env".path.
     environmentFile = "/run/secrets/gathedge/env";
+
+    captcha.siteKey = "0x4AAAAAAERIYkM5j5Z4gTDh";
   };
 
   # The app module's openFirewall opens port 80, which is a no-op on this host —
