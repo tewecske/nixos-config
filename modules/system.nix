@@ -3,24 +3,31 @@
   lib,
   username,
   ...
-}: {
+}:
+{
   # ============================= User related =============================
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
     isNormalUser = true;
     description = username;
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [username];
+  nix.settings.trusted-users = [ username ];
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
   nix.settings = {
     # enable flakes globally
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     auto-optimise-store = true;
 
     substituters = [
@@ -83,10 +90,20 @@
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig.defaultFonts = {
-      serif = ["Noto Serif" "Noto Color Emoji"];
-      sansSerif = ["Noto Sans" "Noto Color Emoji"];
-      monospace = ["MesloLGMDZ Nerd Font" "JetBrainsMono Nerd Font" "Noto Color Emoji"];
-      emoji = ["Noto Color Emoji"];
+      serif = [
+        "Noto Serif"
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "Noto Sans"
+        "Noto Color Emoji"
+      ];
+      monospace = [
+        "MesloLGMDZ Nerd Font"
+        "JetBrainsMono Nerd Font"
+        "Noto Color Emoji"
+      ];
+      emoji = [ "Noto Color Emoji" ];
     };
   };
 
@@ -106,6 +123,26 @@
     openFirewall = true;
   };
 
+  # nvim's mason (if still used) downloads prebuilt, dynamically linked binaries
+  # expecting /lib64/ld-linux-x86-64.so.2, which NixOS does not have.
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      zlib
+      openssl
+    ];
+  };
+
+  # rclone config, decrypted from secrets.yaml into tewe's home. rclone itself is
+  # a system package below, so the server has it even before home-manager runs.
+  sops.secrets.rclone_config = {
+    path = "/home/tewe/.config/rclone/rclone.conf";
+    owner = "tewe";
+    group = "users";
+    mode = "0600";
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -120,6 +157,25 @@
     fuse3
 
     rmlint
+
+    # server/admin tooling (was home-manager; server-wide is the right place)
+    nmap
+    dnsutils # dig nslookup
+    htop
+    btop
+    iotop
+    iftop
+    sysstat
+    lm_sensors # sensors
+    ethtool
+    lsof
+    strace
+    ltrace
+    pciutils # lspci
+    usbutils # lsusb
+    gnupg
+    zstd
+    rclone
   ];
 
 }

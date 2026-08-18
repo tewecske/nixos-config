@@ -3,8 +3,7 @@
 
   # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
-    # substituers will be appended to the default substituters when fetching packages
-    # nix com    extra-substituters = [munity's cache server
+    # substituters will be appended to the default substituters when fetching packages
     extra-substituters = [
       "https://nix-community.cachix.org"
     ];
@@ -14,11 +13,29 @@
   };
 
   inputs = {
+    # Server (tewenixsrv) builds against stable.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+
+    # Dev environment (home-manager, standalone) builds against unstable, as
+    # does cloudflared (modules/cloudflared.nix wants a recent release).
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    opencode = {
+      url = "github:anomalyco/opencode/v1.18.18";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    # Wraps nix-built programs so they can find OpenGL. On a foreign distro
+    # (Ubuntu/WSL) nix's loader never searches /usr/lib/x86_64-linux-gnu, so
+    # LWJGL/libGDX apps fail with "GLX: Failed to load GLX" without this.
+    nixGL = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     sops-nix = {
@@ -26,16 +43,6 @@
       owner = "Mic92";
       repo = "sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    catppuccin-bat = {
-      url = "github:catppuccin/bat";
-      flake = false;
-    };
-
-    tewenixhome = {
-      url = "github:tewecske/tewenixhome";
-      flake = false;
     };
 
     # Provides nixosModules.default (services.gathedge) plus the overlay supplying
@@ -48,103 +55,85 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      opencode,
+      nixGL,
+      ...
+    }@inputs:
     let
-      commonModules = [ 
-        ./modules/custom-options.nix
-        # import sops everywhere
+      system = "x86_64-linux";
+      username = "tewe";
+
+      # Canonical checkout path on every machine. The out-of-store dotfile
+      # symlinks and the `hm` wrapper point at this, so it must match where the
+      # repo actually lives.
+      repoName = "nixos-config";
+
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      # Every host = common.nix + one host file, built against unstable.
+      mkHome =
+        hostModule:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgs-unstable;
+          extraSpecialArgs = {
+            inherit
+              system
+              opencode
+              nixGL
+              repoName
+              ;
+          };
+          modules = [
+            ./home/common.nix
+            hostModule
+          ];
+        };
+
+      # Shared across NixOS hosts (only tewenixsrv today): sops wiring.
+      commonModules = [
         inputs.sops-nix.nixosModules.sops
         {
-          # config.nix.generateRegistryFromInputs = true;
-          config.home-manager.useGlobalPkgs = true;
-          config.home-manager.useUserPackages = true;
-          # Import custom home-manager modules (NixOS)
-          # config.home-manager.sharedModules = import ./users/modules/modules.nix;
-
           config.sops.defaultSopsFile = ./secrets.yaml;
           config.sops.defaultSopsFormat = "yaml";
-	  # TODO: fix this
-	  config.sops.age.keyFile = "/home/tewe/.config/sops/age/keys.txt";
-          config.home-manager.sharedModules = [
-	    inputs.sops-nix.homeManagerModules.sops
-          ];
+          # TODO: fix this
+          config.sops.age.keyFile = "/home/tewe/.config/sops/age/keys.txt";
         }
       ];
     in
     {
-    nixosConfigurations = {
-      tewenixsrv = let
-        username = "tewe";
-      in
-        nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-	  specialArgs = {
-	    inherit username;
-	    pkgs-unstable = import nixpkgs-unstable {
-	      inherit system;
-	      config.allowUnfree = true;
-	    };
-	    inherit inputs;
-	  };
-          modules = commonModules ++ [
-            ./hosts/tewenixsrv
-            ./users/${username}/nixos.nix
-
-            home-manager.nixosModules.home-manager
-            ({ config, ... }: {
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
-            })
-          ];
+      nixosConfigurations.tewenixsrv = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit username inputs;
+          pkgs-unstable = pkgs-unstable;
+        };
+        modules = commonModules ++ [
+          ./hosts/tewenixsrv
+          ./users/tewe/nixos.nix
+        ];
       };
-      desktopgnome = let
-        username = "tewe";
-      in
-        nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-	  specialArgs = {
-	    inherit username;
-	    pkgs-unstable = import nixpkgs-unstable {
-	      inherit system;
-	      config.allowUnfree = true;
-	    };
-	    inherit inputs;
-	  };
-          modules = commonModules ++ [
-            ./hosts/desktopgnome
-            ./users/${username}/nixos.nix
 
-            home-manager.nixosModules.home-manager
-            ({ config, ... }: {
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
-            })
-          ];
+      homeConfigurations = {
+        "tewe@wsl" = mkHome ./home/wsl.nix;
+        "tewe@ubuntu" = mkHome ./home/ubuntu.nix;
+        "tewe@fedora" = mkHome ./home/fedora.nix;
+        "tewe@nixos" = mkHome ./home/nixos.nix;
       };
-      vmi3 = let
-        username = "tewe";
-      in
-        nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-	  specialArgs = {
-	    inherit username;
-	    pkgs-unstable = import nixpkgs-unstable {
-	      inherit system;
-	      config.allowUnfree = true;
-	    };
-	    inherit inputs;
-	  };
-          modules = commonModules ++ [
-            ./hosts/vmi3
-            ./users/${username}/nixos.nix
 
-            home-manager.nixosModules.home-manager
-            ({ config, ... }: {
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.extraSpecialArgs = (inputs // specialArgs) // { profile = config.mySystem.profile; };
-            })
-          ];
-      };
+      # So `nix run .#home-manager -- switch --flake .#tewe@wsl` works
+      # without home-manager being installed first.
+      packages.${system}.home-manager = home-manager.packages.${system}.home-manager;
+
+      # `nix fmt`
+      formatter.${system} = pkgs-unstable.nixfmt-rfc-style;
     };
-  };
 }

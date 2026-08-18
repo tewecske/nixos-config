@@ -2,26 +2,29 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-unstable, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 {
-  mySystem.profile = "server";
 
-  imports =
-    [
-      ../../modules/system.nix
-      # ../../modules/i3.nix
-      ../../modules/plex.nix
-      ../../modules/jellyfin.nix
-      ../../modules/torrent.nix
-      ../../modules/cloudflared.nix
-      ../../modules/photoprism.nix
-      ../../modules/samba.nix
-      ../../modules/gathedge.nix
+  imports = [
+    ../../modules/system.nix
+    # ../../modules/i3.nix
+    ../../modules/plex.nix
+    ../../modules/jellyfin.nix
+    ../../modules/torrent.nix
+    ../../modules/cloudflared.nix
+    ../../modules/photoprism.nix
+    ../../modules/samba.nix
+    ../../modules/gathedge.nix
 
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -32,7 +35,7 @@
 
   systemd.services.plex = {
     serviceConfig = {
-      SupplementaryGroups = [ "users" ];  # Add Plex to users group
+      SupplementaryGroups = [ "users" ]; # Add Plex to users group
     };
     after = [
       "mnt-externalwd.mount"
@@ -40,12 +43,12 @@
   };
 
   # systemd.services.hd-idle = {
-    # description = "External HD spin down daemon";
-    # wantedBy = [ "multi-user.target" ];
-    # serviceConfig = {
-      # Type = "forking";
-      # ExecStart = "${pkgs.hd-idle}/bin/hd-idle -i 0 -a sdb -i 600";
-    # };
+  # description = "External HD spin down daemon";
+  # wantedBy = [ "multi-user.target" ];
+  # serviceConfig = {
+  # Type = "forking";
+  # ExecStart = "${pkgs.hd-idle}/bin/hd-idle -i 0 -a sdb -i 600";
+  # };
   # };
 
   networking.hostName = "tewenixsrv"; # Define your hostname.
@@ -68,5 +71,3 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-
-
