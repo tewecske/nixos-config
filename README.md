@@ -34,17 +34,58 @@ linstalls.log          # historical record of the old manual install
 
 ## Server (tewenixsrv)
 
-Rebuild the system with:
+### Migrate / bootstrap
 
-```sh
-sudo nixos-rebuild switch --flake ~/nixos-config#tewenixsrv
-```
+1. Nix is already there. On a *fresh* NixOS install you first need flakes
+   enabled — until the config itself sets them (`modules/system.nix` does):
 
-The server's *user* environment is the same standalone home-manager config as
-every other machine — apply it with `hm switch` (target `tewe@nixos`) after
-cloning, exactly like a desktop. Server-only admin tooling (nmap, rclone, btop,
-…), `nix-ld`, and the rclone sops secret live at the system level in
-`modules/system.nix`.
+   ```nix
+   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+   ```
+
+2. Clone and apply the **system** config (also sets `nix-ld`, openssh, and the
+   server modules):
+
+   ```sh
+   git clone git@github.com:tewecske/nixos-config.git ~/nixos-config
+   sudo nixos-rebuild switch --flake ~/nixos-config#tewenixsrv
+   ```
+
+3. The **sops age key** must be in place before step 2 (it decrypts
+   `secrets.yaml` → `rclone.conf`, so the rebuild fails without it):
+
+   ```sh
+   install -Dm600 <age-keys.txt> ~/.config/sops/age/keys.txt
+   ```
+
+4. Apply the **user** environment (same standalone home-manager config as every
+   other machine, target `tewe@nixos`):
+
+   ```sh
+   hm switch
+   ```
+
+Server-only admin tooling (nmap, rclone, btop, …), `nix-ld`, and the rclone
+sops secret live at the system level in `modules/system.nix`.
+
+### Rollback
+
+- One generation back (system):
+
+  ```sh
+  sudo nixos-rebuild switch --rollback
+  ```
+
+- List system generations:
+
+  ```sh
+  nixos-rebuild list-generations
+  ```
+
+- Boot-time fallback: `systemd-boot` keeps 10 generations
+  (`boot.loader.systemd-boot.configurationLimit` in `hosts/tewenixsrv/default.nix`)
+  — pick an older entry from the boot menu.
+- Home-manager on the server: same `./rollback.sh` as everywhere else.
 
 ---
 
@@ -158,9 +199,31 @@ in `home/<host>.nix`).
 | build without activating | `hm build` |
 | add a package | edit `home/common.nix`, then `hm switch` |
 | update everything | `nix flake update` in `~/nixos-config`, then `hm switch` |
-| roll back | `home-manager generations`, then run that generation's `activate` |
+| roll back | `./rollback.sh` (one step) or `./rollback.sh N` (specific generation) |
 | find a package name | `nix search nixpkgs ripgrep` |
 | format the nix files | `nix fmt` |
+
+### Rolling back
+
+`hm switch` keeps every previous generation around (see
+`home-manager generations`), so a bad switch is always reversible. `rollback.sh`
+at the repo root does the undo — it works unchanged on WSL, Ubuntu, Fedora and
+NixOS because it does **not** touch the flake. Rollback has to work even when
+the current config fails to build, so it needs neither `HM_TARGET` nor a valid
+flake:
+
+```sh
+./rollback.sh      # one step back, to the generation before the current one
+./rollback.sh 7    # activate a specific generation (list ids with `home-manager generations`)
+```
+
+By hand, without the script:
+
+```sh
+home-manager switch --rollback                      # one step back
+home-manager generations                            # note the id / store path
+/nix/store/...-home-manager-generation/activate     # activate a specific one
+```
 
 ### PATH ordering — read before editing bash/
 
