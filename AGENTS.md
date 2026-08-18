@@ -15,6 +15,17 @@ Guidance for coding agents working in this repo.
 Nix is the single source of tooling — sdkman, `cs setup`, fnm, and `go install`
 are all superseded (see `README.md` "What replaced what").
 
+## Secrets (sops-nix)
+
+- Secrets live encrypted in `secrets.yaml` (`config.sops.defaultSopsFile` in
+  `flake.nix` `commonModules`); wire new ones with `sops.secrets."name"` and read
+  them via `config.sops.secrets."name"`.
+- Age key is at `/home/tewe/.config/sops/age/keys.txt` (has a `TODO: fix this` in
+  `flake.nix`). It must be in place **before** a server rebuild, or decrypting
+  `secrets.yaml` fails.
+- The rclone sops secret (`sops.secrets.rclone_config`) is decrypted into
+  `~/.config/rclone/rclone.conf` by `modules/system.nix`.
+
 ## Layout
 
 - `flake.nix` — inputs (nixpkgs stable + unstable, home-manager, opencode, nixGL,
@@ -50,6 +61,8 @@ are all superseded (see `README.md` "What replaced what").
   use `### ... ###` comment blocks.
 - `home.stateVersion = "25.05"` — pinning migration behavior, do not bump casually.
 - `flake.lock` is committed; two machines share byte-identical tooling.
+- Server system config enables flakes + nix-command, weekly GC (`--delete-older-than 7d`),
+  and `allowUnfree` (see `modules/system.nix`).
 
 ## Common tasks
 
@@ -61,6 +74,8 @@ are all superseded (see `README.md` "What replaced what").
 | add a package | edit `home/common.nix`, then `hm switch` |
 | update everything | `nix flake update` then `hm switch` |
 | rebuild the server | `sudo nixos-rebuild switch --flake ~/nixos-config#tewenixsrv` |
+| test the server build | `sudo nixos-rebuild build --flake ~/nixos-config#tewenixsrv` |
+| check the flake | `nix flake check` |
 | format | `nix fmt` |
 | find a package | `nix search nixpkgs <name>` |
 | first run (existing dotfiles) | `home-manager switch -b backup --flake ~/nixos-config#tewe@<host>` |
