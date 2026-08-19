@@ -41,6 +41,7 @@ are all superseded (see `README.md` "What replaced what").
 - `home/{wsl,ubuntu,fedora,nixos}.nix` — per-host overrides; each sets `HM_TARGET`.
 - `home/programs/*.nix` — one module per program (bash, git, tmux, fzf, starship, zoxide, dircolors, home-manager).
 - `bash/`, `scripts/` — dotfiles symlinked out-of-store to `~/`.
+- `nvim/` — Neovim config, symlinked out-of-store to `~/.config/nvim`.
 - `home/programs/tmux.nix` — all tmux config (options, plugins, bindings); no `tmux/` dir.
 - `examples/devenv.nix` — optional per-project toolchain.
 - `linstalls.log`, `nix_stuff.txt`, `windows_setup.txt` — historical notes, not config.
@@ -50,13 +51,14 @@ are all superseded (see `README.md` "What replaced what").
 - Server NixOS config builds against stable (`nixpkgs` = nixos-26.05); home-manager
   builds against `nixpkgs-unstable`. `cloudflared.nix` uses the unstable pin via
   `pkgs-unstable`.
-- Dotfiles under `bash/`, `scripts/` use `mkOutOfStoreSymlink` to point
+- Dotfiles under `bash/`, `scripts/`, `nvim/` use `mkOutOfStoreSymlink` to point
   at `~/nixos-config/...` instead of the nix store. Editing them is live — no switch
   needed. Only adding/removing a *file* requires a switch.
 - tmux is configured natively via `programs.tmux` (options + `plugins` from
   `pkgs.tmuxPlugins` + `extraConfig`). No tpm, no hand-written `tmux.conf`.
-- nvim is NOT managed here — it's a separate repo at `~/.config/nvim`.
-  Language servers come from nix (Mason removed).
+- nvim lives in this repo (`nvim/`), symlinked to `~/.config/nvim`. Its built-in
+  plugin manager (`:h vim.pack`) writes `nvim-pack-lock.json` straight into
+  `nvim/` — commit it after updating. Language servers come from nix (Mason removed).
 - Formatter: `nixfmt-rfc-style` (run `nix fmt`). 2-space indent; section banners
   use `### ... ###` comment blocks.
 - `home.stateVersion = "25.05"` — pinning migration behavior, do not bump casually.

@@ -153,12 +153,9 @@ home-manager switch --flake ~/nixos-config#tewe@wsl
 
 ### 4. Neovim config
 
-Not managed by nix on purpose — it's a separate repo and `lazy.nvim` writes
-`lazy-lock.json` into it, which a read-only `/nix/store` path would break.
-
-```sh
-git clone git@github.com:tewecske/kickstart.nvim.git ~/.config/nvim
-```
+Already included in this repo under `nvim/`. Step 3 symlinks it to
+`~/.config/nvim` (out-of-store, so edits are live), so there is nothing to clone —
+just run `nvim`. Plugins install on first launch via `:h vim.pack`.
 
 ### 5. tmux plugins
 
@@ -166,11 +163,10 @@ tmux config lives entirely in `home/programs/tmux.nix`. Plugins are managed
 natively by home-manager from nixpkgs `tmuxPlugins` — no tpm, no `prefix + I`.
 Add/remove a plugin by editing the `plugins` list, then `hm switch`.
 
-### 6. NixOS only — mason needs nix-ld
+### 6. NixOS only — nix-ld
 
-`~/.config/nvim` uses `mason.nvim`, which downloads prebuilt dynamically linked
-binaries expecting `/lib64/ld-linux-x86-64.so.2`. NixOS has no such path, so
-every mason-installed LSP fails to exec.
+Prebuilt dynamically linked binaries expect `/lib64/ld-linux-x86-64.so.2`, which
+NixOS does not have, so they fail to exec without nix-ld.
 
 For `tewenixsrv` this is already set in `modules/system.nix`. For any *other*
 NixOS host using `tewe@nixos`, add to its system config:

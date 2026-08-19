@@ -118,11 +118,12 @@ in
   home.file = {
     ".bash_aliases".source = link "bash/.bash_aliases";
     "bin/scripts".source = link "scripts";
+    ".config/nvim".source = link "nvim";
   };
 
-  # NOTE: ~/.config/nvim is deliberately NOT managed here. It is its own git
-  # repo, and nvim's built-in plugin manager (`:h vim.pack`) writes
-  # nvim-pack-lock.json into it. See README.md for the clone step.
+  # ~/.config/nvim lives in this repo (nvim/), symlinked out-of-store like the
+  # dotfiles above. nvim's built-in plugin manager (`:h vim.pack`) writes
+  # nvim-pack-lock.json straight into nvim/ — commit it after updating.
   #
   # Language servers are NOT installed by nvim — Mason was removed. Every server
   # nvim enables must be on PATH from the list above.
