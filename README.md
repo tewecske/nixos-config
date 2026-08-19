@@ -24,7 +24,7 @@ home/programs/         # bash, git, tmux, fzf, starship, zoxide, dircolors, home
 bash/                  # .bashrc .profile .bash_aliases   -> symlinked to ~
 scripts/               #                                  -> symlinked to ~/bin/scripts
 examples/devenv.nix    # optional per-project toolchains
-linstalls.log          # historical record of the old manual install
+notes/                 # historical notes (old installs, nix/sops setup, windows)
 ```
 
 > The repo must live at `~/nixos-config` — `home/common.nix` symlinks dotfiles
@@ -227,16 +227,14 @@ Login shell order is: `.profile` sources `.bashrc` **first**, then prepends its
 own dirs. So anything that prepends to `PATH` *after* the nix block shadows the
 nix profile.
 
-The nix block is therefore the **last** thing in `.bashrc`, and these are
-commented out because each one prepends a competing toolchain:
+The nix block is therefore the **last** thing in `.bashrc`. `.profile` prepends
+`~/bin`, `~/bin/scripts`, `~/.local/bin` and the coursier dir *after* sourcing
+`.bashrc`, but all of those are nix-free (or nix-managed), so they don't shadow
+the nix toolchain. If you ever add a toolchain-manager block (sdkman/fnm/go
+installed outside nix), it must go before the nix block — or it will shadow the
+nix profile.
 
-| block | file | shadows |
-|---|---|---|
-| `/usr/local/go/bin` | `.profile` | `go` |
-| sdkman init | `.bashrc` | `java` |
-| fnm init | `.bashrc` | `node`, `npm` |
-
-Re-enable any of them and that tool stops coming from nix. Verify with:
+Verify a tool actually comes from nix with:
 
 ```sh
 env -i HOME="$HOME" TERM=xterm PATH=/usr/bin:/bin bash -lic 'command -v go java node'
@@ -309,8 +307,8 @@ workspace $ws2 output HDMI-1 DP-1 DP-2 primary
 `coursier` is still installed: `nvim-metals` shells out to `cs` for
 `:MetalsInstall`. It is a tool now, not an environment manager — no `cs setup`.
 
-Dropped, per your call: `pdftotext` (poppler-utils), `7zip`, `zoxide`, `fd-find`.
-Commented out in `home/common.nix`: `sqlite`, `tailwindcss`.
+Dropped, per your call: `pdftotext` (poppler-utils), `7zip`, `fd-find`,
+`sqlite`, `tailwindcss`, `ocaml`/`opam`.
 
 ---
 
@@ -336,6 +334,6 @@ See `examples/devenv.nix`. Files: `devenv.nix` (config), `devenv.yaml`
 
 ## Not covered here
 
-- SSH keys — copy them in before cloning (`linstalls.log` lines 4-6).
-- Windows-side WSL setup — see `windows_setup.txt`.
-- `sops`/`age` key material — see `nix_stuff.txt`.
+- SSH keys — copy them in before cloning (`notes/linstalls.log` lines 4-6).
+- Windows-side WSL setup — see `notes/windows_setup.txt`.
+- `sops`/`age` key material — see `notes/nix_stuff.txt`.

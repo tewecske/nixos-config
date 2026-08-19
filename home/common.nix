@@ -82,7 +82,7 @@ in
     nodejs_22
     pnpm
 
-    # --- rust  (was rustup in linstalls.log) ----------------------------------
+    # --- rust  (was rustup in notes/linstalls.log) ----------------------------
     rustc
     cargo
     rust-analyzer
@@ -105,11 +105,6 @@ in
 
     # --- ai --------------------------------------------------------------------
     opencode.packages.${system}.opencode
-
-    # --- opt-in: uncomment if you actually need these -------------------------
-    # sqlite         # you said probably not needed
-    # tailwindcss    # you said no separate executable needed
-    # ocaml opam     # .profile still has a guarded opam init block
   ];
 
   #############################################################################

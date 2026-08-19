@@ -44,7 +44,7 @@ are all superseded (see `README.md` "What replaced what").
 - `nvim/` — Neovim config, symlinked out-of-store to `~/.config/nvim`.
 - `home/programs/tmux.nix` — all tmux config (options, plugins, bindings); no `tmux/` dir.
 - `examples/devenv.nix` — optional per-project toolchain.
-- `linstalls.log`, `nix_stuff.txt`, `windows_setup.txt` — historical notes, not config.
+- `notes/` — historical notes (old installs, nix/sops setup, windows), not config.
 
 ## Conventions
 
@@ -89,7 +89,8 @@ at the default `~/.config/home-manager/home.nix`.
 ## Gotchas
 
 - PATH ordering in `bash/.bashrc`: the nix block is deliberately LAST. Any block
-  that prepends to PATH after it (e.g. re-enabled fnm/sdkman/go) shadows nix.
+  that prepends to PATH after it (e.g. a re-added toolchain manager like
+  fnm/sdkman/go installed outside nix) shadows nix.
 - NixOS host needs `programs.nix-ld.enable = true` — already set for `tewenixsrv`
   in `modules/system.nix`; add manually on any other NixOS host.
 - Fedora host runs `scripts/display-hotplug` as a systemd user unit (`display-hotplug`);

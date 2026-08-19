@@ -1,5 +1,4 @@
--- Debugging. `delve` comes from home-manager, which is what mason-nvim-dap
--- used to install.
+-- Debugging. `delve` comes from home-manager (no mason).
 
 local dap = require 'dap'
 local dapui = require 'dapui'

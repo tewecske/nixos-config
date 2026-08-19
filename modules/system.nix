@@ -123,8 +123,8 @@
     openFirewall = true;
   };
 
-  # nvim's mason (if still used) downloads prebuilt, dynamically linked binaries
-  # expecting /lib64/ld-linux-x86-64.so.2, which NixOS does not have.
+  # NixOS lacks /lib64/ld-linux-x86-64.so.2, so prebuilt dynamically linked
+  # binaries fail to exec without nix-ld.
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [

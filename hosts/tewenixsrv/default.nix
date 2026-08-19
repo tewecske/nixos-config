@@ -2,18 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{
-  config,
-  pkgs,
-  pkgs-unstable,
-  ...
-}:
+{ ... }:
 
 {
 
   imports = [
     ../../modules/system.nix
-    # ../../modules/i3.nix
     ../../modules/plex.nix
     ../../modules/jellyfin.nix
     ../../modules/torrent.nix
@@ -42,23 +36,8 @@
     ];
   };
 
-  # systemd.services.hd-idle = {
-  # description = "External HD spin down daemon";
-  # wantedBy = [ "multi-user.target" ];
-  # serviceConfig = {
-  # Type = "forking";
-  # ExecStart = "${pkgs.hd-idle}/bin/hd-idle -i 0 -a sdb -i 600";
-  # };
-  # };
+  networking.hostName = "tewenixsrv";
 
-  networking.hostName = "tewenixsrv"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
   networking.networkmanager.enable = true;
   networking.defaultGateway = "192.168.50.1";
 
