@@ -49,11 +49,10 @@ in
   };
 
   networking.firewall.allowedTCPPorts = [
-    8080   # qBittorrent
-    8989   # Sonarr
-    7878   # Radarr
-    9696   # Prowlarr
-    5055   # Seerr
+    8080 # qBittorrent
+    8989 # Sonarr
+    7878 # Radarr
+    9696 # Prowlarr
+    5055 # Seerr
   ];
 }
-

@@ -89,7 +89,7 @@ in
 
     # --- nix itself -----------------------------------------------------------
     nil # nix LSP
-    nixfmt-rfc-style
+    nixfmt
 
     # --- editor tooling (replaces mason.nvim) ---------------------------------
     # Language servers for languages that have no toolchain section above, plus

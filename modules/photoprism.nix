@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  users.groups.photoprism = {};
+  users.groups.photoprism = { };
   users.groups.media.members = [
     "photoprism"
   ];

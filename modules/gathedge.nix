@@ -9,7 +9,12 @@
 # points a public hostname at http://localhost:80, where nginx serves the SPA and proxies /api
 # to the backend on loopback. That ingress lives in the Cloudflare dashboard, not here — the
 # tunnel is token-managed.
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [ inputs.gathedge.nixosModules.default ];
 

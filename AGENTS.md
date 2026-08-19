@@ -59,8 +59,8 @@ are all superseded (see `README.md` "What replaced what").
 - nvim lives in this repo (`nvim/`), symlinked to `~/.config/nvim`. Its built-in
   plugin manager (`:h vim.pack`) writes `nvim-pack-lock.json` straight into
   `nvim/` — commit it after updating. Language servers come from nix (Mason removed).
-- Formatter: `nixfmt-rfc-style` (run `nix fmt`). 2-space indent; section banners
-  use `### ... ###` comment blocks.
+- Formatter: `nixfmt` via `nixfmt-tree` (run `nix fmt`). 2-space indent; section
+  banners use `### ... ###` comment blocks.
 - `home.stateVersion = "25.05"` — pinning migration behavior, do not bump casually.
 - `flake.lock` is committed; two machines share byte-identical tooling.
 - Server system config enables flakes + nix-command, weekly GC (`--delete-older-than 7d`),

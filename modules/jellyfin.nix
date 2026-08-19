@@ -5,7 +5,10 @@
     "jellyfin"
   ];
 
-  users.users.jellyfin.extraGroups = [ "media" "users" ];
+  users.users.jellyfin.extraGroups = [
+    "media"
+    "users"
+  ];
 
   # Jellyfin media server
   # https://jellyfin.org/

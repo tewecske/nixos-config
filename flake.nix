@@ -134,6 +134,6 @@
       packages.${system}.home-manager = home-manager.packages.${system}.home-manager;
 
       # `nix fmt`
-      formatter.${system} = pkgs-unstable.nixfmt-rfc-style;
+      formatter.${system} = pkgs-unstable.nixfmt-tree;
     };
 }

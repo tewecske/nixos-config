@@ -5,7 +5,7 @@
   inputs,
   config,
   ...
-}: 
+}:
 let
   cloudflared = pkgs-unstable.cloudflared;
   common = {
@@ -29,8 +29,14 @@ in
   users.groups.cloudflared = { };
 
   systemd.services.cloudflared = {
-    after = [ "network.target" "network-online.target" ];
-    wants = [ "network.target" "network-online.target" ];
+    after = [
+      "network.target"
+      "network-online.target"
+    ];
+    wants = [
+      "network.target"
+      "network-online.target"
+    ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${cloudflared}/bin/cloudflared tunnel --no-autoupdate run";
@@ -42,4 +48,3 @@ in
   };
 
 }
-
