@@ -5,6 +5,7 @@
   system,
   opencode,
   nixGL,
+  claude-code-nix,
   repoName,
   ...
 }:
@@ -105,6 +106,7 @@ in
 
     # --- ai --------------------------------------------------------------------
     opencode.packages.${system}.opencode
+    claude-code-nix.packages.${system}.default
   ];
 
   #############################################################################

@@ -25,8 +25,13 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     opencode = {
-      url = "github:anomalyco/opencode/v1.18.18";
+      url = "github:anomalyco/opencode/v1.18.21";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -63,6 +68,7 @@
       home-manager,
       opencode,
       nixGL,
+      claude-code-nix,
       ...
     }@inputs:
     let
@@ -89,6 +95,7 @@
               system
               opencode
               nixGL
+              claude-code-nix
               repoName
               ;
           };
