@@ -70,6 +70,15 @@
     environmentFile = "/run/secrets/gathedge/env";
 
     captcha.siteKey = "0x4AAAAAAERIYkM5j5Z4gTDh";
+
+    backup = {
+      enable = true;
+      rcloneConfigFile = "/run/secrets/rclone.conf";  # mode 0400, root-owned
+      remoteDir = "gdrive:backups/gathedge";
+      retentionDays = 7;
+      time = "02:00";
+    };
+
   };
 
   # The app module's openFirewall opens port 80, which is a no-op on this host —
