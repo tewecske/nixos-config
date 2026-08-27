@@ -86,10 +86,17 @@
       };
 
       # Every host = common.nix + one host file, built against unstable.
+      # `system` defaults to x86_64-linux; pass aarch64-linux for ARM hosts.
       mkHome =
-        hostModule:
+        {
+          hostModule,
+          system ? "x86_64-linux",
+        }:
         home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs-unstable;
+          pkgs = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
           extraSpecialArgs = {
             inherit
               system
@@ -130,10 +137,14 @@
       };
 
       homeConfigurations = {
-        "tewe@wsl" = mkHome ./home/wsl.nix;
-        "tewe@ubuntu" = mkHome ./home/ubuntu.nix;
-        "tewe@fedora" = mkHome ./home/fedora.nix;
-        "tewe@nixos" = mkHome ./home/nixos.nix;
+        "tewe@wsl" = mkHome { hostModule = ./home/wsl.nix; };
+        "tewe@ubuntu" = mkHome { hostModule = ./home/ubuntu.nix; };
+        "tewe@ubuntu-arm" = mkHome {
+          hostModule = ./home/ubuntu-arm.nix;
+          system = "aarch64-linux";
+        };
+        "tewe@fedora" = mkHome { hostModule = ./home/fedora.nix; };
+        "tewe@nixos" = mkHome { hostModule = ./home/nixos.nix; };
       };
 
       # So `nix run .#home-manager -- switch --flake .#tewe@wsl` works
