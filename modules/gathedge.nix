@@ -38,6 +38,18 @@
     group = "root";
   };
 
+  # The backup unit loads this as a systemd credential, so it must be a real file at
+  # activation time. system.nix decrypts the same YAML key into tewe's home for interactive
+  # rclone use; this is a second copy, root-owned, at the path the backup unit expects.
+  # Default path is /run/secrets/rclone.conf (matches the name), which is what
+  # rcloneConfigFile below points at.
+  sops.secrets."rclone.conf" = {
+    key = "rclone_config";
+    mode = "0400";
+    owner = "root";
+    group = "root";
+  };
+
   services.gathedge = {
     enable = true;
 
@@ -73,7 +85,7 @@
 
     backup = {
       enable = true;
-      rcloneConfigFile = "/run/secrets/rclone.conf";  # mode 0400, root-owned
+      rcloneConfigFile = config.sops.secrets."rclone.conf".path;  # mode 0400, root-owned
       remoteDir = "gdrive:backups/gathedge";
       retentionDays = 7;
       time = "02:00";
