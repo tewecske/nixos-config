@@ -56,6 +56,7 @@ in
     ripgrep
     jq
     neovim
+    gh
 
     # --- jvm / scala  (replaces sdkman + `cs setup`) ---------------------------
     jdk21
