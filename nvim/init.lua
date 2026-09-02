@@ -71,6 +71,9 @@ vim.keymap.set('n', '<leader>qq', vim.diagnostic.setloclist, { desc = 'Open diag
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+vim.keymap.set('', 'H', '^')
+vim.keymap.set('', 'L', '$')
+
 -- Completion menu navigation. <C-n>/<C-p> and <C-y> are builtin; these keep the
 -- <C-j>/<C-k> and <CR> habits from nvim-cmp. Guarded on pumvisible() so they
 -- fall through to a literal newline when no menu is open.
