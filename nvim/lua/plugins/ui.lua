@@ -15,6 +15,37 @@ require('which-key').add {
   { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
 }
 
+-- Shortened file path relative to cwd, keeping at most `length` trailing dirs
+-- (port of LazyVim.lualine.pretty_path, minus the LazyVim.root dependency).
+local function pretty_path(length)
+  length = length or 3
+  return function()
+    local path = vim.fn.expand '%:p'
+    if path == '' then
+      return ''
+    end
+    local cwd = vim.uv.cwd()
+    if cwd and path:find(cwd, 1, true) == 1 then
+      path = path:sub(#cwd + 2)
+    else
+      path = vim.fn.expand '%:~'
+    end
+
+    local parts = vim.split(path, '[\\/]')
+    if #parts > length + 1 then
+      parts = { parts[1], '…', unpack(parts, #parts - length + 1, #parts) }
+    end
+    local out = table.concat(parts, '/')
+    if vim.bo.modified then
+      out = out .. ' ●'
+    end
+    if vim.bo.readonly or not vim.bo.modifiable then
+      out = out .. ' 󰌾'
+    end
+    return out
+  end
+end
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -22,20 +53,24 @@ require('lualine').setup {
     section_separators = '',
   },
   sections = {
-    -- vim.lsp.status() replaces fidget.nvim: it aggregates the $/progress
-    -- messages every attached server sends. `:h vim.lsp.status()`
-    lualine_x = { vim.lsp.status },
     lualine_a = {
       {
-        'buffers',
+        'mode',
+        fmt = function(str)
+          return str:sub(1, 1)
+        end,
       },
+      { 'buffers' },
     },
     lualine_c = {
-      {
-        'filename',
-        path = 1,
-      },
+      { pretty_path(6) },
     },
+    -- move metals status to the left
+    -- vim.lsp.status() replaces fidget.nvim: it aggregates the $/progress
+    -- messages every attached server sends. `:h vim.lsp.status()`
+    lualine_x = { 'g:metals_status', 'searchcount' },
+    lualine_y = { vim.lsp.status },
+    lualine_z = { 'progress' },
   },
 }
 

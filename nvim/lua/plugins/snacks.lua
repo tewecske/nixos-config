@@ -79,6 +79,18 @@ snacks.setup {
     notification_history = large,
   },
   picker = {
+    -- Open every picker pre-filled with its last query. Snacks keeps a
+    -- per-source history file (~/.local/share/nvim/snacks/picker_<source>.history);
+    -- picker:hist() is exactly what <C-Up> does. <C-Up>/<C-Down> still walk it.
+    on_show = function(picker)
+      local skip = { explorer = true, resume = true }
+      local f = picker.input.filter
+      local seeded = (f.pattern ~= '' or f.search ~= '')
+      local h = picker.history
+      if not skip[picker.opts.source] and not seeded and h and #h.kv.data > 0 then
+        picker:hist()
+      end
+    end,
     sources = {
       explorer = {
         layout = {
@@ -99,10 +111,10 @@ snacks.setup {
       input = {
         keys = {
           ['<Esc>'] = { 'close', mode = 'i' },
-          ['<C-h>'] = { 'list_down', mode = { 'i', 'n' } },
-          ['<C-l>'] = { 'list_up', mode = { 'i', 'n' } },
-          ['<C-k>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
-          ['<C-j>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+          ['<C-j>'] = { 'list_down', mode = { 'i', 'n' } },
+          ['<C-k>'] = { 'list_up', mode = { 'i', 'n' } },
+          ['<C-l>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+          ['<C-h>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
         },
       },
     },
