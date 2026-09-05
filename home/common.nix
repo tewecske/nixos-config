@@ -58,6 +58,7 @@ in
     jq
     neovim
     gh
+    lazygit
 
     # --- jvm / scala  (replaces sdkman + `cs setup`) ---------------------------
     jdk21
