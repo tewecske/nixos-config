@@ -45,5 +45,34 @@ in
         }
       ];
     };
+
+    extraConfig = ''
+      local catppuccin_flavors = {
+        "Catppuccin Latte",
+        "Catppuccin Frappe",
+        "Catppuccin Macchiato",
+        "Catppuccin Mocha",
+      }
+
+      wezterm.on("cycle-catppuccin-flavor", function(window, pane)
+        local overrides = window:get_config_overrides() or {}
+        local current = overrides.color_scheme or window:effective_config().color_scheme
+        local idx = 1
+        for i, name in ipairs(catppuccin_flavors) do
+          if name == current then
+            idx = i
+            break
+          end
+        end
+        overrides.color_scheme = catppuccin_flavors[(idx % #catppuccin_flavors) + 1]
+        window:set_config_overrides(overrides)
+      end)
+
+      return {
+        keys = {
+          { key = "]", mods = "CTRL|SHIFT", action = wezterm.action.EmitEvent("cycle-catppuccin-flavor") },
+        },
+      }
+    '';
   };
 }
