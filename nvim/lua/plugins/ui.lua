@@ -1,6 +1,6 @@
 -- Colorscheme, statusline, file tree, keybind hints, editing textobjects.
 
-vim.cmd.colorscheme 'catppuccin'
+vim.cmd.colorscheme 'circadia-dark'
 vim.cmd.hi 'Comment gui=none'
 
 require('which-key').setup()
