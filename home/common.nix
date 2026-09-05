@@ -51,6 +51,7 @@ in
     python3 # treesitter parser build dep
     ffmpeg
     nerd-fonts.meslo-lg
+    cascadia-code
 
     # --- cli ------------------------------------------------------------------
     bat

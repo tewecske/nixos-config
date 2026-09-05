@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   nixGL,
   system,
@@ -26,6 +27,15 @@ in
     package = wezterm-nixgl;
     settings = {
       color_scheme = "Catppuccin Latte";
+
+      # Cascadia Code from the cascadia-code pkg (home/common.nix); Meslo Nerd
+      # Font as fallback for the powerline/icon glyphs Cascadia lacks.
+      font = lib.generators.mkLuaInline ''
+        wezterm.font_with_fallback {
+          "Cascadia Code",
+          { family = "MesloLGMDZ Nerd Font", weight = "Bold" },
+        }
+      '';
 
       # X11/i3 respects terminal cell increments when resizing.
       use_resize_increments = true;
