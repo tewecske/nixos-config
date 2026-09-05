@@ -3,6 +3,7 @@
   programs.wezterm = {
     enable = true;
     settings = {
+      color_scheme = "Catppuccin Latte";
       ssh_domains = [
         {
           name = "teweora";
