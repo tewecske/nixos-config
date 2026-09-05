@@ -70,7 +70,9 @@ in
 
       return {
         keys = {
-          { key = "]", mods = "CTRL|SHIFT", action = wezterm.action.EmitEvent("cycle-catppuccin-flavor") },
+          -- Shift+] produces "}" on a US layout; wezterm matches the
+          -- already-shifted character, so SHIFT is not listed in mods here.
+          { key = "}", mods = "CTRL", action = wezterm.action.EmitEvent("cycle-catppuccin-flavor") },
         },
       }
     '';
