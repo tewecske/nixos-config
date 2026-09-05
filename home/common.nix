@@ -27,6 +27,7 @@ in
     ./programs/starship.nix
     ./programs/dircolors.nix
     ./programs/zoxide.nix
+    ./programs/wezterm.nix
   ];
 
   home.username = "tewe";
@@ -132,6 +133,6 @@ in
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    TERMINAL = "ghostty";
+    TERMINAL = "wezterm";
   };
 }
