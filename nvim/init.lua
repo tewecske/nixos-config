@@ -149,6 +149,7 @@ vim.pack.add {
   -- in a directory called "nvim" among the plugins. Same reason lazy-lock.json
   -- used to have a bare "nvim" entry.
   { src = GH 'catppuccin/nvim', name = 'catppuccin' },
+  { src = GH 'tanmaymanojgandhi/circadia', name = 'circadia' },
   GH 'folke/which-key.nvim',
   GH 'lewis6991/gitsigns.nvim',
   GH 'nvim-lualine/lualine.nvim',
@@ -179,6 +180,16 @@ vim.pack.add {
   -- picker / explorer / terminal / misc utilities
   GH 'folke/snacks.nvim',
 }
+
+-- circadia keeps its Lua module at ports/neovim/lua/ inside a larger repo, not at
+-- the plugin root, so vim.pack cannot put it on the runtimepath by itself. Point
+-- at the nested dir; colors/circadia-{dark,light}.lua in this config then expose
+-- it to `:colorscheme` and the snacks picker.
+for _, p in ipairs(vim.pack.get()) do
+  if p.spec.name == 'circadia' then
+    vim.opt.rtp:prepend(vim.fs.joinpath(p.path, 'ports', 'neovim'))
+  end
+end
 
 require 'plugins.ui'
 -- require 'plugins.telescope'

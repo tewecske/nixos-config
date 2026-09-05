@@ -4,6 +4,10 @@
       "rev": "79e2049a0fdf7ec840f8463fe1d962c94493196b",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "circadia": {
+      "rev": "40a9e8c21731a82f5bcd361ce40dc8a873ba2015",
+      "src": "https://github.com/tanmaymanojgandhi/circadia"
+    },
     "copilot.vim": {
       "rev": "a12fd5672110c8aa7e3c8419e28c96943ca179be",
       "src": "https://github.com/github/copilot.vim",
