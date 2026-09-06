@@ -4,6 +4,7 @@
   config,
   system,
   opencode,
+  opencode2,
   nixGL,
   claude-code-nix,
   repoName,
@@ -110,6 +111,12 @@ in
 
     # --- ai --------------------------------------------------------------------
     opencode.packages.${system}.opencode
+
+    # Same repo as opencode, tracking the v2 branch. Its build already names the
+    # binary `opencode2`, so it installs alongside the stable `opencode` above
+    # with no collision.
+    opencode2.packages.${system}.opencode
+
     claude-code-nix.packages.${system}.default
   ];
 

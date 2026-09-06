@@ -35,6 +35,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    opencode2 = {
+      url = "github:anomalyco/opencode/v2";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     # Wraps nix-built programs so they can find OpenGL. On a foreign distro
     # (Ubuntu/WSL) nix's loader never searches /usr/lib/x86_64-linux-gnu, so
     # LWJGL/libGDX apps fail with "GLX: Failed to load GLX" without this.
@@ -67,6 +72,7 @@
       nixpkgs-unstable,
       home-manager,
       opencode,
+      opencode2,
       nixGL,
       claude-code-nix,
       ...
@@ -101,6 +107,7 @@
             inherit
               system
               opencode
+              opencode2
               nixGL
               claude-code-nix
               repoName
