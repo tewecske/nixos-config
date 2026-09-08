@@ -3,7 +3,6 @@
   lib,
   config,
   system,
-  opencode,
   nixGL,
   claude-code-nix,
   repoName,
@@ -109,7 +108,6 @@ in
     tree-sitter # nvim-treesitter's `main` branch shells out to it to build parsers
 
     # --- ai --------------------------------------------------------------------
-    opencode.packages.${system}.opencode
     claude-code-nix.packages.${system}.default
   ];
 
