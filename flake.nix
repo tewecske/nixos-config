@@ -129,6 +129,18 @@
         ];
       };
 
+      nixosConfigurations.omnissiah = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit username inputs;
+          pkgs-unstable = pkgs-unstable;
+        };
+        modules = commonModules ++ [
+          ./hosts/omnissiah
+          ./users/tewe/nixos.nix
+        ];
+      };
+
       homeConfigurations = {
         "tewe@wsl" = mkHome { hostModule = ./home/wsl.nix; };
         "tewe@ubuntu" = mkHome { hostModule = ./home/ubuntu.nix; };
