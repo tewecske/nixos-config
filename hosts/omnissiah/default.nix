@@ -12,6 +12,7 @@
 
   imports = [
     ../../modules/system.nix
+    ../../modules/docker.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -27,6 +28,8 @@
   networking.networkmanager.enable = true;
   # Assumed same LAN as tewenixsrv — adjust if omnissiah lives elsewhere.
   networking.defaultGateway = "192.168.50.1";
+
+  virtualisation.docker.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
