@@ -150,6 +150,7 @@
         };
         "tewe@fedora" = mkHome { hostModule = ./home/fedora.nix; };
         "tewe@nixos" = mkHome { hostModule = ./home/nixos.nix; };
+        "tewe@omnissiah" = mkHome { hostModule = ./home/omnissiah.nix; };
       };
 
       # So `nix run .#home-manager -- switch --flake .#tewe@wsl` works
