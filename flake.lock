@@ -62,11 +62,11 @@
         "sbt-derivation": "sbt-derivation"
       },
       "locked": {
-        "lastModified": 1789830758,
-        "narHash": "sha256-gsHE3jS9p34buSbZqWMdEBWMK6r2P7LBLR6rzsBaAIM=",
+        "lastModified": 1789938222,
+        "narHash": "sha256-MqSlB0F8GfK9+o2mKdOQ940o5vAvuz0o0I4JYap51Ew=",
         "owner": "tewecske",
         "repo": "gathedge",
-        "rev": "a6d8ae702afc6ca34f3d144109d8706793bd5ad7",
+        "rev": "f42f09f552bf0d78d47abf438a97600512e078d7",
         "type": "github"
       },
       "original": {
