@@ -31,6 +31,13 @@
 
   virtualisation.docker.enable = true;
 
+  # Remote access from outside the LAN. One-time login: `sudo tailscale up`
+  # (add `--ssh` for Tailscale SSH), then `ssh tewe@omnissiah` over the tailnet.
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
