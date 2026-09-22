@@ -30,6 +30,14 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    # opencode v2. omnissiah only (home/omnissiah.nix) — not wired into
+    # home/common.nix, so other hosts are unaffected. Deliberately NOT
+    # following our nixpkgs-unstable: opencode's nix/node_modules.nix bakes a
+    # fixed-output sha256 for its `bun install`, computed against the
+    # nixpkgs (bun version) pinned in *its own* flake.lock. Following ours
+    # swaps in a different bun and breaks that hash.
+    opencode.url = "github:anomalyco/opencode/v2";
+
     # Wraps nix-built programs so they can find OpenGL. On a foreign distro
     # (Ubuntu/WSL) nix's loader never searches /usr/lib/x86_64-linux-gnu, so
     # LWJGL/libGDX apps fail with "GLX: Failed to load GLX" without this.
@@ -63,6 +71,7 @@
       home-manager,
       nixGL,
       claude-code-nix,
+      opencode,
       ...
     }@inputs:
     let
@@ -96,6 +105,7 @@
               system
               nixGL
               claude-code-nix
+              opencode
               repoName
               ;
           };

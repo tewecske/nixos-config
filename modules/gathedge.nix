@@ -85,7 +85,7 @@
 
     backup = {
       enable = true;
-      rcloneConfigFile = config.sops.secrets."rclone.conf".path;  # mode 0400, root-owned
+      rcloneConfigFile = config.sops.secrets."rclone.conf".path; # mode 0400, root-owned
       remoteDir = "gdrive:backups/gathedge";
       retentionDays = 7;
       time = "02:00";
