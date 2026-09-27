@@ -63,6 +63,7 @@ in
     # --- jvm / scala  (replaces sdkman + `cs setup`) ---------------------------
     jdk21
     scala_3
+    scala-cli
     sbt
     mill
     metals
