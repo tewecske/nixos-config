@@ -93,6 +93,18 @@
 
   };
 
+  # Outgoing mail through Resend's SMTP relay. services.gathedge has no mail options, so the
+  # non-secret half goes straight onto the backend unit; the API key goes in the sops env file
+  # as SMTP_PASSWORD. MAIL_FROM must be on a domain verified in Resend (DKIM/SPF records in
+  # the 200iq.link Cloudflare zone), or Resend rejects the send.
+  systemd.services.gathedge-backend.environment = {
+    MAIL_FROM = "GathEdge <no-reply@gathedge.200iq.link>";
+    SMTP_HOST = "smtp.resend.com";
+    SMTP_PORT = "587";
+    SMTP_USERNAME = "resend";
+    SMTP_START_TLS = "true";
+  };
+
   # The app module's openFirewall opens port 80, which is a no-op on this host —
   # modules/system.nix sets networking.firewall.enable = false.
 }
