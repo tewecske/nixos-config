@@ -4,7 +4,7 @@
   config,
   system,
   nixGL,
-  claude-code-nix,
+  llm-agents,
   repoName,
   ...
 }:
@@ -109,7 +109,10 @@ in
     tree-sitter # nvim-treesitter's `main` branch shells out to it to build parsers
 
     # --- ai --------------------------------------------------------------------
-    claude-code-nix.packages.${system}.default
+    # From numtide/llm-agents.nix (see flake.nix), prebuilt via cache.numtide.com.
+    llm-agents.packages.${system}.claude-code
+    llm-agents.packages.${system}.opencode2
+    llm-agents.packages.${system}.amp
   ];
 
   #############################################################################

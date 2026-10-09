@@ -28,7 +28,7 @@ are all superseded (see `README.md` "What replaced what").
 
 ## Layout
 
-- `flake.nix` — inputs (nixpkgs stable + unstable, home-manager, opencode, nixGL,
+- `flake.nix` — inputs (nixpkgs stable + unstable, home-manager, llm-agents, nixGL,
   sops-nix, gathedge) + one `nixosConfigurations.tewenixsrv` + one
   `homeConfigurations` entry per host.
 - `hosts/tewenixsrv/` — server NixOS config + hardware-configuration.nix.

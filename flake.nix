@@ -6,9 +6,11 @@
     # substituters will be appended to the default substituters when fetching packages
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://cache.numtide.com" # llm-agents
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
   };
 
@@ -25,18 +27,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    claude-code-nix = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    # opencode v2. omnissiah only (home/omnissiah.nix) — not wired into
-    # home/common.nix, so other hosts are unaffected. Deliberately NOT
-    # following our nixpkgs-unstable: opencode's nix/node_modules.nix bakes a
-    # fixed-output sha256 for its `bun install`, computed against the
-    # nixpkgs (bun version) pinned in *its own* flake.lock. Following ours
-    # swaps in a different bun and breaks that hash.
-    opencode.url = "github:anomalyco/opencode/v2";
+    # AI coding agents (claude-code, opencode2, amp, ...), updated daily.
+    # Deliberately NOT following our nixpkgs-unstable: upstream only builds and
+    # tests against its own pin, and keeping it lets us hit cache.numtide.com
+    # (see nixConfig above) instead of rebuilding everything locally.
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     # Wraps nix-built programs so they can find OpenGL. On a foreign distro
     # (Ubuntu/WSL) nix's loader never searches /usr/lib/x86_64-linux-gnu, so
@@ -70,8 +65,7 @@
       nixpkgs-unstable,
       home-manager,
       nixGL,
-      claude-code-nix,
-      opencode,
+      llm-agents,
       ...
     }@inputs:
     let
@@ -104,8 +98,7 @@
             inherit
               system
               nixGL
-              claude-code-nix
-              opencode
+              llm-agents
               repoName
               ;
           };
