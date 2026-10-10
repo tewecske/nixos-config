@@ -25,6 +25,12 @@
 
   networking.hostName = "omnissiah";
 
+  # Keep the onboard Intel I219-V (eno1) armed for Wake-on-LAN, so a magic
+  # packet can wake the box from S3 suspend, and from S5 poweroff as long as
+  # the BIOS has "Wake on LAN / Power On by PCIe" enabled. Applied by udev
+  # via a systemd .link file.
+  networking.interfaces.eno1.wakeOnLan.enable = true;
+
   networking.networkmanager.enable = true;
   # Assumed same LAN as tewenixsrv — adjust if omnissiah lives elsewhere.
   networking.defaultGateway = "192.168.50.1";

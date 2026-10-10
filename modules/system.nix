@@ -162,6 +162,7 @@
     rmlint
 
     # server/admin tooling (was home-manager; server-wide is the right place)
+    wakeonlan # `wakeonlan <mac>`: magic packet to wake the other box on the LAN
     nmap
     dnsutils # dig nslookup
     htop
