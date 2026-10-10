@@ -153,6 +153,7 @@
     wget
     curl
     inetutils
+    openssl
 
     exfat
     ntfs3g
