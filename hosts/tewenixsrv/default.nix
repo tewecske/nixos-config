@@ -27,6 +27,13 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
+  # usb1-port13 / usb2-port7 report a bogus over-current on this board. With
+  # nothing attached, the USB2 root hub loops on runtime autosuspend (aborted
+  # by the over-current flag), pinning a CPU in kworker/ksoftirqd. Keep it on.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", KERNEL=="usb1", ATTR{power/control}="on"
+  '';
+
   systemd.services.plex = {
     serviceConfig = {
       SupplementaryGroups = [ "users" ]; # Add Plex to users group
