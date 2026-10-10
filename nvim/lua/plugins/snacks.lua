@@ -139,6 +139,15 @@ snacks.setup {
   bigfile = {},
 }
 
+-- The `on_show` hook above pre-fills each picker from its persisted history.
+-- That history survives across nvim runs, but a query from a previous session
+-- is rarely relevant to a fresh one (different project, different task), so
+-- drop the on-disk files at startup. History recorded during this session stays
+-- in memory, so re-opening a picker still pre-fills its last query.
+for _, f in ipairs(vim.fn.glob(vim.fn.stdpath 'data' .. '/snacks/picker_*.history', false, true)) do
+  vim.fn.delete(f)
+end
+
 -- Project root: nearest ancestor with a project marker, else cwd. Replaces
 -- LazyVim.root(), which also consults LSP workspace folders first.
 local function root()

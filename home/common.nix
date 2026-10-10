@@ -83,6 +83,8 @@ in
     air
     templ
     delve # go debugger, driven by nvim-dap-go
+    gocyclo
+    ineffassign
 
     # --- node  (replaces fnm) -------------------------------------------------
     nodejs_22
