@@ -44,6 +44,19 @@
     openFirewall = true;
   };
 
+  # Swap file on the ext4 root (no repartitioning needed). Sized for
+  # hibernation: ~15.5 GiB RAM + headroom. To actually hibernate, also set
+  # `boot.resumeDevice = "/dev/nvme0n1p2"` and the file's resume offset
+  # (`boot.kernelParams = [ "resume_offset=<N>" ]`, N from
+  # `sudo filefrag -v /swapfile`) *after* the file exists, i.e. after the
+  # first rebuild below.
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 20480; # MiB (20 GiB)
+    }
+  ];
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
