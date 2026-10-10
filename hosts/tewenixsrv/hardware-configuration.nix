@@ -55,6 +55,17 @@
     ];
   };
 
+  fileSystems."/mnt/seagate" = {
+    device = "/dev/disk/by-uuid/30997aea-180c-41ce-af28-ae5900219d45";
+    fsType = "ext4";
+    options = [
+      "defaults"
+      "noatime"
+      "nofail"
+      "x-systemd.device-timeout=10s"
+    ];
+  };
+
   swapDevices = [
     { device = "/dev/disk/by-uuid/af7c8b99-0e29-4ca7-9e05-041579bf6e17"; }
   ];
