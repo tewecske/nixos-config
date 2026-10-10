@@ -38,7 +38,11 @@ in
       "network-online.target"
     ];
     wantedBy = [ "multi-user.target" ];
+    # network-online is reached before NetworkManager writes resolv.conf, so the
+    # first starts fail DNS (falls back to [::1]:53). Retry slowly, never give up.
+    startLimitIntervalSec = 0;
     serviceConfig = {
+      RestartSec = 5;
       ExecStart = "${cloudflared}/bin/cloudflared tunnel --no-autoupdate run";
       EnvironmentFile = "${config.sops.secrets."cloudflared/weecaldemo/token".path}";
       Group = "cloudflared";
