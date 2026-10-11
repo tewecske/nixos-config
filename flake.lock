@@ -129,6 +129,27 @@
         "type": "github"
       }
     },
+    "lazyenv": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791674965,
+        "narHash": "sha256-G7LTYvjKYF2aUWUSh+TFDoKWMjjQT69X3t19m/rUgNA=",
+        "owner": "tewecske",
+        "repo": "lazyenv",
+        "rev": "746d75bf5b895d179a178d47d2d13c17e951eee4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tewecske",
+        "ref": "dev",
+        "repo": "lazyenv",
+        "type": "github"
+      }
+    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -224,6 +245,7 @@
       "inputs": {
         "gathedge": "gathedge",
         "home-manager": "home-manager",
+        "lazyenv": "lazyenv",
         "llm-agents": "llm-agents",
         "nixGL": "nixGL",
         "nixpkgs": "nixpkgs_2",

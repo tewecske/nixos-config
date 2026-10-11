@@ -27,6 +27,7 @@ in
     ./programs/dircolors.nix
     ./programs/zoxide.nix
     ./programs/wezterm.nix
+    ./programs/lazyenv.nix
   ];
 
   home.username = "tewe";

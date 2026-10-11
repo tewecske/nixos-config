@@ -56,6 +56,13 @@
       url = "github:tewecske/gathedge";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # TUI for .env files, from my fork's dev branch. Provides
+    # homeManagerModules.default (programs.lazyenv), imported in mkHome below.
+    lazyenv = {
+      url = "github:tewecske/lazyenv/dev";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -66,6 +73,7 @@
       home-manager,
       nixGL,
       llm-agents,
+      lazyenv,
       ...
     }@inputs:
     let
@@ -103,6 +111,7 @@
               ;
           };
           modules = [
+            lazyenv.homeManagerModules.default
             ./home/common.nix
             hostModule
           ];
