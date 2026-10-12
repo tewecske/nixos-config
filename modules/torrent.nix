@@ -54,5 +54,7 @@ in
     7878 # Radarr
     9696 # Prowlarr
     5055 # Seerr
+    20151 # qBittorrent peers (Session\Port in qBittorrent.conf)
   ];
+  networking.firewall.allowedUDPPorts = [ 20151 ];
 }

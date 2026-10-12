@@ -4,6 +4,13 @@
 
 { config, pkgs, ... }:
 
+let
+  externalwd = {
+    requires = [ "mnt-externalwd.mount" ];
+    after = [ "mnt-externalwd.mount" ];
+  };
+in
+
 {
 
   imports = [
@@ -15,6 +22,7 @@
     ../../modules/photoprism.nix
     ../../modules/samba.nix
     ../../modules/gathedge.nix
+    ../../modules/monitoring.nix
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -88,13 +96,28 @@
     };
   };
 
-  systemd.services.plex = {
-    serviceConfig = {
-      SupplementaryGroups = [ "users" ]; # Add Plex to users group
-    };
-    after = [
-      "mnt-externalwd.mount"
-    ];
+  # externalwd (NTFS) refuses to mount at boot when its dirty flag is set, e.g. after a power
+  # cut. Without the mount these services would run against the empty /mnt/externalwd on the
+  # root disk (qBittorrent downloading there, libraries looking empty), so they require it and
+  # stay down instead. After fixing/mounting it by hand, start them:
+  #   sudo systemctl start qbittorrent plex jellyfin photoprism sonarr radarr samba-smbd
+  systemd.services.qbittorrent = externalwd;
+  systemd.services.plex = externalwd // {
+    serviceConfig.SupplementaryGroups = [ "users" ]; # Add Plex to users group
+  };
+  systemd.services.jellyfin = externalwd;
+  systemd.services.photoprism = externalwd;
+  systemd.services.sonarr = externalwd;
+  systemd.services.radarr = externalwd;
+  systemd.services.samba-smbd = externalwd;
+
+  # Push the failed boot mount to ntfy (notify-failure@ is in modules/monitoring.nix).
+  systemd.units."mnt-externalwd.mount" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Unit]
+      OnFailure=notify-failure@%n.service
+    '';
   };
 
   networking.hostName = "tewenixsrv";

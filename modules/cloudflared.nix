@@ -9,7 +9,7 @@
 let
   cloudflared = pkgs-unstable.cloudflared;
   common = {
-    mode = "444";
+    mode = "0400"; # read by systemd (EnvironmentFile) before dropping to cloudflared
     owner = "root";
     group = "root";
   };

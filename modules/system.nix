@@ -109,10 +109,9 @@
     };
   };
 
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  # Each module opens its own ports (openFirewall / allowedTCPPorts). Postgres, the
+  # gathedge backend and netdata stay loopback-only.
+  networking.firewall.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh = {

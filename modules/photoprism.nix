@@ -21,11 +21,12 @@
     originalsPath = "/mnt/externalwd/stuff/photos";
     storagePath = "/var/lib/photoprism";
     settings = {
-      PHOTOPRISM_ADMIN_PASSWORD = "password";
       PHOTOPRISM_READONLY = "false";
       PHOTOPRISM_DISABLE_TLS = "true";
       PHOTOPRISM_DATABASE_DRIVER = "sqlite";
-      PHOTOPRISM_AUTH_MODE = "public";
+      # Login required. The admin account already exists, so set its password with
+      # `sudo /var/lib/photoprism/photoprism-manage passwd admin` (not stored here).
+      PHOTOPRISM_AUTH_MODE = "password";
       PHOTOPRISM_SITE_URL = "http://192.168.50.5:2342/";
       PHOTOPRISM_HTTP_HOST = "0.0.0.0";
       PHOTOPRISM_HTTP_PORT = "2342";
@@ -41,9 +42,6 @@
       SupplementaryGroups = [ "users" ];
       CPUQuota = "50%";
     };
-    after = [
-      "mnt-externalwd.mount"
-    ];
   };
 
   # Open Photoprism port in firewall

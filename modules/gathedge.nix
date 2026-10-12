@@ -105,6 +105,5 @@
     SMTP_START_TLS = "true";
   };
 
-  # The app module's openFirewall opens port 80, which is a no-op on this host —
-  # modules/system.nix sets networking.firewall.enable = false.
+  # The app module's openFirewall opens port 80 (LAN access to the site).
 }
