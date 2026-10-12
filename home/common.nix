@@ -99,6 +99,8 @@ in
     # --- nix itself -----------------------------------------------------------
     nil # nix LSP
     nixfmt
+    sops # `sops secrets.yaml` to edit; key at ~/.config/sops/age/keys.txt
+    age
 
     # --- editor tooling (replaces mason.nvim) ---------------------------------
     # Language servers for languages that have no toolchain section above, plus
