@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  users.groups.media.members = [
-    "plex"
-  ];
-
+  # Writes to /mnt/externalwd (subtitles uploaded from the WebUI), so it joins `media`.
   users.users.plex.extraGroups = [ "media" ];
 
   # Plex - Media Server

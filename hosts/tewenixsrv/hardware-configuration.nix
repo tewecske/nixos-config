@@ -50,8 +50,12 @@
       "windows_names"
       "nofail"
       "user"
+      # NTFS has no Unix owners: every file shows as tewe:media. tewe and the `media` group
+      # (services that write here) get rw; everyone else, e.g. Plex/Jellyfin, read-only.
       "uid=1000"
-      "gid=100"
+      "gid=${toString config.users.groups.media.gid}"
+      "dmask=002"
+      "fmask=113"
     ];
   };
 

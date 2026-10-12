@@ -39,7 +39,6 @@
 
   systemd.services.photoprism = {
     serviceConfig = {
-      SupplementaryGroups = [ "users" ];
       CPUQuota = "50%";
     };
   };

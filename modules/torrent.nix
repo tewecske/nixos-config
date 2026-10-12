@@ -1,60 +1,33 @@
-{ pkgs, ... }:
+{ ... }:
 
-let
-  dataDir = "/var/lib/qbittorrent";
-in
 {
+  # Each service runs as its own system user (created by its NixOS module). The ones that
+  # write to /mnt/externalwd join `media`, which owns that NTFS mount group-writable (see
+  # hosts/tewenixsrv). Seerr and Prowlarr never touch the drive.
+  users.users.qbittorrent.extraGroups = [ "media" ];
+  users.users.sonarr.extraGroups = [ "media" ];
+  users.users.radarr.extraGroups = [ "media" ];
 
-  users.users.radarr = {
-    group = "users";
-    isNormalUser = true;
-    extraGroups = [ "media" ];
-  };
+  services.sonarr.enable = true;
+  services.radarr.enable = true;
+  services.prowlarr.enable = true;
+  services.seerr.enable = true;
 
-  users.users.sonarr = {
-    group = "users";
-    isNormalUser = true;
-    extraGroups = [ "media" ];
-  };
-
-  services.sonarr = {
+  # Profile in /var/lib/qBittorrent (module default). Settings stay in its own
+  # qBittorrent.conf, managed from the WebUI (no serverConfig here).
+  services.qbittorrent = {
     enable = true;
-    user = "tewe";
-    group = "users";
-  };
-
-  services.radarr = {
-    enable = true;
-    user = "tewe";
-    group = "users";
-  };
-
-  services.prowlarr = {
-    enable = true;
-  };
-
-  services.seerr = {
-    enable = true;
-  };
-
-  systemd.services.qbittorrent = {
-    description = "qbittorrent";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    script = ''
-      mkdir -p /home/tewe/.config/qbittorrent/qBittorrent/config
-      ${pkgs.qbittorrent-nox}/bin/qbittorrent-nox --webui-port=8080 --profile=/home/tewe/.config/qbittorrent
-    '';
-    serviceConfig.User = "tewe";
+    webuiPort = 8080;
+    torrentingPort = 20151;
   };
 
   networking.firewall.allowedTCPPorts = [
     8080 # qBittorrent
+    20151 # qBittorrent peers
     8989 # Sonarr
     7878 # Radarr
     9696 # Prowlarr
     5055 # Seerr
-    20151 # qBittorrent peers (Session\Port in qBittorrent.conf)
   ];
   networking.firewall.allowedUDPPorts = [ 20151 ];
 }

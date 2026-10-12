@@ -1,14 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  users.groups.media.members = [
-    "jellyfin"
-  ];
-
-  users.users.jellyfin.extraGroups = [
-    "media"
-    "users"
-  ];
+  # Writes to /mnt/externalwd (subtitles uploaded from the WebUI), so it joins `media`.
+  users.users.jellyfin.extraGroups = [ "media" ];
 
   # Jellyfin media server
   # https://jellyfin.org/

@@ -2,12 +2,21 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
+  # Services that use /mnt/externalwd. ntfs3 stores the creator's owner and mode on every
+  # file it creates, overriding the mount's gid/masks, so new files must come out right:
+  # group `media` (inherited from the setgid directories) and group-writable.
   externalwd = {
     requires = [ "mnt-externalwd.mount" ];
     after = [ "mnt-externalwd.mount" ];
+    serviceConfig.UMask = lib.mkForce "0007";
   };
 in
 
@@ -96,15 +105,18 @@ in
     };
   };
 
+  # Writers to /mnt/externalwd (members come from the service modules). Pinned because the
+  # mount option needs the number; 993 is what it was already allocated.
+  users.groups.media.gid = 993;
+  users.users.tewe.extraGroups = [ "media" ];
+
   # externalwd (NTFS) refuses to mount at boot when its dirty flag is set, e.g. after a power
   # cut. Without the mount these services would run against the empty /mnt/externalwd on the
   # root disk (qBittorrent downloading there, libraries looking empty), so they require it and
   # stay down instead. After fixing/mounting it by hand, start them:
   #   sudo systemctl start qbittorrent plex jellyfin photoprism sonarr radarr samba-smbd
   systemd.services.qbittorrent = externalwd;
-  systemd.services.plex = externalwd // {
-    serviceConfig.SupplementaryGroups = [ "users" ]; # Add Plex to users group
-  };
+  systemd.services.plex = externalwd;
   systemd.services.jellyfin = externalwd;
   systemd.services.photoprism = externalwd;
   systemd.services.sonarr = externalwd;
