@@ -26,6 +26,7 @@ in
     ./programs/starship.nix
     ./programs/dircolors.nix
     ./programs/zoxide.nix
+    ./programs/direnv.nix
     ./programs/wezterm.nix
     ./programs/lazyenv.nix
   ];
