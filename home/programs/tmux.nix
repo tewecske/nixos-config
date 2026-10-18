@@ -78,6 +78,7 @@
       bind r command-prompt "rename-window %%"
       bind R source-file ~/.config/tmux/tmux.conf
       bind ^A last-window
+      bind a send-prefix
       bind ^W list-windows
       bind w list-windows
       bind z resize-pane -Z
