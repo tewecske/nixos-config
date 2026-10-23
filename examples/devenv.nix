@@ -11,7 +11,7 @@
   # Pin a toolchain for this project only.
   languages.scala.enable = true;
   languages.java.enable = true;
-  languages.java.jdk.package = pkgs.jdk21;
+  languages.java.jdk.package = pkgs.jdk25;
 
   # languages.go.enable = true;
   # languages.javascript.enable = true;

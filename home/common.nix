@@ -64,7 +64,7 @@ in
     just
 
     # --- jvm / scala  (replaces sdkman + `cs setup`) ---------------------------
-    jdk21
+    jdk25
     scala_3
     scala-cli
     sbt
@@ -80,7 +80,7 @@ in
     # bash/.bash_aliases.
 
     # --- go  (replaces `go install ...` + hand-rolled ~/bin symlinks) ----------
-    go
+    go_1_27
     gopls
     air
     templ
@@ -89,7 +89,7 @@ in
     ineffassign
 
     # --- node  (replaces fnm) -------------------------------------------------
-    nodejs_22
+    nodejs_26
     pnpm
 
     # --- rust  (was rustup in notes/linstalls.log) ----------------------------
