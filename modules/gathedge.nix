@@ -105,5 +105,9 @@
     SMTP_START_TLS = "true";
   };
 
+  # The JVM exits 143 on SIGTERM; without this every restart counts as a failure and
+  # fires notify-failure@ (modules/monitoring.nix).
+  systemd.services.gathedge-backend.serviceConfig.SuccessExitStatus = [ 143 ];
+
   # The app module's openFirewall opens port 80 (LAN access to the site).
 }
