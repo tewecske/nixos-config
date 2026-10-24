@@ -15,6 +15,40 @@ let
   # in place and see the change immediately, with no `home-manager switch`.
   repo = "${config.home.homeDirectory}/${repoName}";
   link = path: config.lib.file.mkOutOfStoreSymlink "${repo}/${path}";
+
+  # eMudhra CA compromise (Oct 2026): distrust the 8 compromised intermediates
+  # by appending their SHA-256 fingerprints to the JDK's blocked.certs
+  # (https://www.scala-lang.org/blog/jdk-certificate-vulnerability.html), and
+  # drop the two roots they chain to, which Oracle says to do even on the fixed
+  # releases (21.0.13 / 25.0.5). The store is read-only and rebuilding the JDK
+  # from source is slow, so copy it and patch the copy; java.home resolves to
+  # the copy.
+  blockEmudhra =
+    jdk:
+    let
+      self =
+        pkgs.runCommand "${jdk.name}-emudhra-blocked"
+          {
+            inherit (jdk) meta;
+            passthru = {
+              inherit (jdk) version;
+              home = "${self}/lib/openjdk";
+            };
+          }
+          ''
+            cp -a ${jdk} $out
+            chmod -R u+w $out
+            sec=$out/lib/openjdk/lib/security
+            cat ${./emudhra-blocked.certs} >> $sec/blocked.certs
+            for alias in "emsigneccrootcag3 [jdk]" "comodoaaaca [jdk]"; do
+              $out/bin/keytool -delete -keystore $sec/cacerts -storepass changeit -alias "$alias"
+            done
+          '';
+    in
+    self;
+  jdk25 = blockEmudhra pkgs.jdk25;
+  # The scala tools default to nixpkgs' `jre` (jdk21); run them on jdk25 too.
+  withJre = pkg: pkg.override { jre = jdk25; };
 in
 {
   imports = [
@@ -65,12 +99,12 @@ in
 
     # --- jvm / scala  (replaces sdkman + `cs setup`) ---------------------------
     jdk25
-    scala_3
-    scala-cli
-    sbt
-    mill
-    metals
-    coursier # kept: nvim-metals shells out to `cs` for :MetalsInstall
+    (withJre scala_3)
+    (withJre scala-cli)
+    (withJre sbt)
+    (withJre mill)
+    (withJre metals)
+    (withJre coursier) # kept: nvim-metals shells out to `cs` for :MetalsInstall
     nixGL.packages.${system}.nixGLIntel
 
     # --- opengl on foreign distros --------------------------------------------
